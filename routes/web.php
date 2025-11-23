@@ -7,12 +7,21 @@ use App\Http\Controllers\MemberController;
 use App\Http\Controllers\BorrowController;
 use App\Http\Controllers\LibraryController;
 
-// Routes untuk Perpustakaan
-Route::get('/library', [LibraryController::class, 'dashboard'])->name('library.dashboard');
-Route::resource('books', BookController::class);
-Route::resource('categories', CategoryController::class);
-Route::resource('members', MemberController::class);
-Route::resource('borrows', BorrowController::class);
 Route::get('/', function () {
-    return redirect()->route('library.dashboard');
+    return view('welcome');
 });
+
+Route::get('/dashboard', function () {
+    return view('dashboard');
+})->middleware(['auth', 'verified'])->name('dashboard');
+
+Route::middleware('auth')->group(function () {
+    // Routes untuk Perpustakaan
+    Route::resource('books', BookController::class);
+    Route::resource('categories', CategoryController::class);
+    Route::resource('members', MemberController::class);
+    Route::resource('borrows', BorrowController::class);
+    Route::post('/borrows/{borrow}/return', [BorrowController::class, 'returnBook'])->name('borrows.return');
+});
+
+require __DIR__.'/auth.php';

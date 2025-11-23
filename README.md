@@ -1,20 +1,20 @@
 # Library Management System
 
-Aplikasi manajemen perpustakaan berbasis Laravel untuk mengelola peminjaman buku, anggota, dan inventaris.
+Aplikasi manajemen perpustakaan berbasis Laravel dengan fitur authentication untuk mengelola peminjaman buku, anggota, dan inventaris.
 
 ## 📋 Requirements
 
--   **PHP 8.0+** (disarankan PHP 8.2)
+-   **PHP 8.2+** (disarankan PHP 8.2)
 -   **Composer** (PHP package manager)
 -   **MySQL 8.0+** (atau MariaDB)
--   **Node.js 16+** & **NPM** (untuk assets frontend)
+-   **Node.js 18+** & **NPM** (untuk assets frontend)
 
 ## 🚀 Quick Start
 
 ### 1. Clone Repository
 
 ```bash
-https://github.com/senshiner/library.git
+git clone https://github.com/senshiner/library.git
 ```
 
 ### 2. Install PHP Dependencies
@@ -103,6 +103,13 @@ php artisan make:migration create_table_name
 php artisan db:seed
 ```
 
+### Authentication (Laravel Breeze)
+
+```bash
+# Publish authentication views (sudah dilakukan)
+php artisan breeze:install
+```
+
 ## 🐛 Troubleshooting
 
 ### Error: "Class not found"
@@ -121,4 +128,27 @@ php artisan key:generate
 
 ```bash
 php artisan db:seed
+```
+
+### Error: "Authentication views not working"
+
+```bash
+php artisan optimize:clear
+php artisan view:clear
+```
+
+## 🗂️ Project Structure
+
+```
+app/
+├── Http/Controllers/     # Controllers untuk books, members, borrows
+├── Models/              # Eloquent models
+└── Providers/
+resources/
+├── views/              # Blade templates
+│   ├── books/          # Halaman buku
+│   ├── members/        # Halaman anggota
+│   ├── borrows/        # Halaman peminjaman
+│   └── layouts/        # Layout components
+└── js/                 # JavaScript files
 ```

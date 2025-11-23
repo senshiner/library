@@ -45,6 +45,14 @@ ehthumbs.db
 Thumbs.db
 
 # Local development files
- Homestead.json
- Homestead.yaml
- /.vagrant
+Homestead.json
+Homestead.yaml
+/.vagrant
+
+# Laravel specific
+.env.backup
+.phpunit.result.cache
+docker-compose.override.yml
+
+# Optional: Jika menggunakan Sail
+/.docker
