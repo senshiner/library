@@ -1,0 +1,50 @@
+# Dependency directories
+/node_modules
+/vendor/
+
+# Environment file
+/.env
+/.env.*.local
+/.env.local
+/.env.production
+
+# Storage logs and cache
+/storage/*.key
+/storage/logs/*.log
+/storage/framework/cache/*
+/storage/framework/views/*
+/storage/framework/sessions/*
+
+# Bootstrap cache
+/bootstrap/cache/*
+
+# Application cache
+/var/cache/
+
+# Testing files
+/coverage/
+.phpunit.result.cache
+
+# Frontend build
+/public/build/
+/public/hot
+
+# IDE files
+/.idea
+/.vscode
+*.swp
+*.swo
+
+# OS generated files
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+
+# Local development files
+ Homestead.json
+ Homestead.yaml
+ /.vagrant
