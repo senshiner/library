@@ -14,8 +14,7 @@ Aplikasi manajemen perpustakaan berbasis Laravel untuk mengelola peminjaman buku
 ### 1. Clone Repository
 
 ```bash
-git clone https://github.com/username/library-management.git
-cd library-management
+https://github.com/senshiner/library.git
 ```
 
 ### 2. Install PHP Dependencies
