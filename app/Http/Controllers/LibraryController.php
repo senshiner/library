@@ -11,18 +11,23 @@ class LibraryController extends Controller
 {
     public function dashboard()
     {
-        $totalBooks = Book::count();
-        $totalMembers = Member::where('status', 'active')->count();
-        $activeBorrows = Borrow::where('status', 'borrowed')->count();
-        $overdueBorrows = Borrow::where('status', 'borrowed')
-            ->where('due_date', '<', now())
-            ->count();
+        $stats = [
+            'totalBooks' => Book::count(),
+            'totalMembers' => Member::where('status', 'active')->count(),
+            'activeBorrows' => Borrow::where('status', 'borrowed')->count(),
+            'overdueBorrows' => Borrow::where('status', 'borrowed')
+                                ->where('due_date', '<', now())
+                                ->count()
+        ];
 
-        return view('library.dashboard', compact(
-            'totalBooks',
-            'totalMembers', 
-            'activeBorrows',
-            'overdueBorrows'
-        ));
+        // Recent borrows for activity feed
+        $recentBorrows = Borrow::with(['book', 'member'])
+            ->where('status', 'borrowed')
+            ->orderBy('borrow_date', 'desc')
+            ->limit(5)
+            ->get();
+
+        // Gunakan view dashboard (bukan library.dashboard)
+        return view('dashboard', compact('stats', 'recentBorrows'));
     }
 }
