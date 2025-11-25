@@ -2,11 +2,13 @@
 /node_modules
 /vendor/
 
-# Environment file
+# Environment configuration files - NEVER COMMIT THESE
 /.env
 /.env.*.local
 /.env.local
 /.env.production
+.env.*.bak
+.env.backup
 
 # Storage logs and cache
 /storage/*.key
@@ -14,6 +16,7 @@
 /storage/framework/cache/*
 /storage/framework/views/*
 /storage/framework/sessions/*
+/storage/framework/testing/*
 
 # Bootstrap cache
 /bootstrap/cache/*
@@ -24,16 +27,21 @@
 # Testing files
 /coverage/
 .phpunit.result.cache
+phpunit.result.cache
 
 # Frontend build
 /public/build/
 /public/hot
 
-# IDE files
+# IDE files and editor configs
 /.idea
 /.vscode
+/.vscode/*
+!/.vscode/extensions.json
 *.swp
 *.swo
+*.iml
+.DS_Store
 
 # OS generated files
 .DS_Store
@@ -48,11 +56,32 @@ Thumbs.db
 Homestead.json
 Homestead.yaml
 /.vagrant
+.vagrant/
+Vagrantfile
 
 # Laravel specific
 .env.backup
-.phpunit.result.cache
+.env.testing
 docker-compose.override.yml
 
-# Optional: Jika menggunakan Sail
-/.docker
+# Database files (SQLite)
+*.sqlite
+*.sqlite3
+/database/*.sqlite
+/database/*.sqlite3
+
+# Composer lock file (optional, usually committed for production dependencies)
+# composer.lock
+
+# NPM lock files (optional, usually committed for production dependencies)
+# package-lock.json
+# yarn.lock
+
+# Temporary files
+*.tmp
+*.temp
+*.bak
+*~
+
+# Local development databases
+/storage/database.sqlite
