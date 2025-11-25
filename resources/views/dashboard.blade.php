@@ -179,33 +179,4 @@
         </div>
     </div>
 
-    <style>
-        .animate-marquee {
-            animation: marquee 20s linear infinite;
-            display: inline-block;
-            padding-left: 100%;
-        }
-        
-        @keyframes marquee {
-            0% {
-                transform: translateX(0);
-            }
-            100% {
-                transform: translateX(-100%);
-            }
-        }
-        
-        /* Untuk hover effects yang lebih smooth */
-        .transition-all {
-            transition: all 0.2s ease-in-out;
-        }
-
-        /* Optimasi untuk mobile sangat kecil */
-        @media (max-width: 360px) {
-            .grid-cols-2 {
-                grid-template-columns: 1fr;
-            }
-        }
-    </style>
-
 </x-app-layout>

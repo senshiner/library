@@ -29,7 +29,9 @@
 
             <!-- Page Content -->
             <main>
-                {{ $slot }}
+                <div class="min-h-screen bg-cyan-50 pt-16">
+                    {{ $slot }}
+                </div>
             </main>
         </div>
     </body>

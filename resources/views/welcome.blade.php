@@ -4,200 +4,109 @@
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
 
-        <title>Library App</title>
+        <title>Library Management System</title>
 
         <!-- Fonts -->
         <link rel="preconnect" href="https://fonts.bunny.net">
         <link href="https://fonts.bunny.net/css?family=figtree:400,600&display=swap" rel="stylesheet" />
+        
+        <!-- Tailwind CSS -->
+        @vite('resources/css/app.css')
 
-        <!-- Styles -->
-        <style>
-            /* ! tailwindcss v3.4.1 | MIT License | https://tailwindcss.com */
-            *,
-            ::after,
-            ::before {
-                box-sizing: border-box;
-                border-width: 0;
-                border-style: solid;
-                border-color: #e5e7eb;
-            }
-            ::after,
-            ::before {
-                --tw-content: '';
-            }
-            html {
-                line-height: 1.5;
-                -webkit-text-size-adjust: 100%;
-                -moz-tab-size: 4;
-                tab-size: 4;
-                font-family: Figtree, sans-serif;
-                font-feature-settings: normal;
-            }
-            body {
-                margin: 0;
-                line-height: inherit;
-            }
-            .relative {
-                position: relative;
-            }
-            .mx-auto {
-                margin-left: auto;
-                margin-right: auto;
-            }
-            .mt-16 {
-                margin-top: 4rem;
-            }
-            .flex {
-                display: flex;
-            }
-            .scale-100 {
-                --tw-scale-x: 1;
-                --tw-scale-y: 1;
-                transform: translate(var(--tw-translate-x), var(--tw-translate-y)) rotate(var(--tw-rotate)) skewX(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y));
-            }
-            .grid {
-                display: grid;
-            }
-            .max-w-7xl {
-                max-width: 80rem;
-            }
-            .flex-col {
-                flex-direction: column;
-            }
-            .gap-4 {
-                gap: 1rem;
-            }
-            .gap-8 {
-                gap: 2rem;
-            }
-            .p-6 {
-                padding: 1.5rem;
-            }
-            .px-6 {
-                padding-left: 1.5rem;
-                padding-right: 1.5rem;
-            }
-            .py-16 {
-                padding-top: 4rem;
-                padding-bottom: 4rem;
-            }
-            .text-center {
-                text-align: center;
-            }
-            .text-gray-200 {
-                --tw-text-opacity: 1;
-                color: rgb(229 231 235 / var(--tw-text-opacity));
-            }
-            .text-gray-300 {
-                --tw-text-opacity: 1;
-                color: rgb(209 213 219 / var(--tw-text-opacity));
-            }
-            .text-gray-500 {
-                --tw-text-opacity: 1;
-                color: rgb(107 114 128 / var(--tw-text-opacity));
-            }
-            .text-white {
-                --tw-text-opacity: 1;
-                color: rgb(255 255 255 / var(--tw-text-opacity));
-            }
-            .bg-gray-800 {
-                --tw-bg-opacity: 1;
-                background-color: rgb(31 41 55 / var(--tw-bg-opacity));
-            }
-            .bg-white {
-                --tw-bg-opacity: 1;
-                background-color: rgb(255 255 255 / var(--tw-bg-opacity));
-            }
-            .from-gray-700\/50 {
-                --tw-gradient-from: rgb(55 65 81 / 0.5);
-                --tw-gradient-to: rgb(55 65 81 / 0);
-                --tw-gradient-stops: var(--tw-gradient-from), var(--tw-gradient-to);
-            }
-            .via-transparent {
-                --tw-gradient-to: rgb(0 0 0 / 0);
-                --tw-gradient-stops: var(--tw-gradient-from), transparent, var(--tw-gradient-to);
-            }
-            .bg-gradient-to-br {
-                background-image: linear-gradient(to bottom right, var(--tw-gradient-stops));
-            }
-            .min-h-screen {
-                min-height: 100vh;
-            }
-            .shadow-xl {
-                --tw-shadow: 0 20px 25px -5px rgb(0 0 0 / 0.1), 0 8px 10px -6px rgb(0 0 0 / 0.1);
-                --tw-shadow-colored: 0 20px 25px -5px var(--tw-shadow-color), 0 8px 10px -6px var(--tw-shadow-color);
-                box-shadow: var(--tw-ring-offset-shadow, 0 0 #0000), var(--tw-ring-shadow, 0 0 #0000), var(--tw-shadow);
-            }
-            .shadow-gray-500\/20 {
-                --tw-shadow-color: rgb(107 114 128 / 0.2);
-                --tw-shadow: var(--tw-shadow-colored);
-            }
-            .ring-1 {
-                --tw-ring-offset-shadow: var(--tw-ring-inset) 0 0 0 var(--tw-ring-offset-width) var(--tw-ring-offset-color);
-                --tw-ring-shadow: var(--tw-ring-inset) 0 0 0 calc(1px + var(--tw-ring-offset-width)) var(--tw-ring-color);
-                box-shadow: var(--tw-ring-offset-shadow), var(--tw-ring-shadow), var(--tw-shadow, 0 0 #0000);
-            }
-            .ring-gray-900\/5 {
-                --tw-ring-color: rgb(17 24 39 / 0.05);
-            }
-            @media (prefers-color-scheme: dark) {
-                .dark\:bg-gray-900 {
-                    --tw-bg-opacity: 1;
-                    background-color: rgb(17 24 39 / var(--tw-bg-opacity));
-                }
-                .dark\:bg-white\/5 {
-                    background-color: rgb(255 255 255 / 0.05);
-                }
-                .dark\:text-gray-400 {
-                    --tw-text-opacity: 1;
-                    color: rgb(156 163 175 / var(--tw-text-opacity));
-                }
-                .dark\:text-white {
-                    --tw-text-opacity: 1;
-                    color: rgb(255 255 255 / var(--tw-text-opacity));
-                }
-                .dark\:ring-white\/10 {
-                    --tw-ring-color: rgb(255 255 255 / 0.1);
-                }
-            }
-        </style>
+        @vite('resources/css/app.css')
     </head>
     <body class="antialiased">
-        <div class="relative sm:flex sm:justify-center sm:items-center min-h-screen bg-gray-100 dark:bg-gray-900 selection:bg-red-500 selection:text-white">
-            <div class="max-w-7xl mx-auto p-6 lg:p-8">
-                <div class="flex justify-center">
-                    <h1 class="text-4xl font-bold text-gray-900 dark:text-white">Library Management System</h1>
+        <!-- Main Content -->
+        <div class="min-h-screen bg-cyan-50 py-12 sm:py-16">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                
+                <!-- Header -->
+                <div class="text-center mb-12">
+                    <div class="flex justify-center mb-6">
+                        <x-application-logo class="w-16 h-16 text-gray-900" />
+                    </div>
+                    <h1 class="text-3xl sm:text-4xl font-bold text-gray-900 mb-3">
+                        📚 Library Management System
+                    </h1>
+                    <p class="text-lg text-gray-600 max-w-2xl mx-auto">
+                        Sistem manajemen perpustakaan terpadu untuk mengelola koleksi buku, anggota, dan peminjaman
+                    </p>
                 </div>
 
-                <div class="mt-16">
-                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6 lg:gap-8">
-                        <div class="scale-100 p-6 bg-white dark:bg-gray-800/50 dark:bg-gradient-to-bl from-gray-700/50 via-transparent dark:ring-1 dark:ring-inset dark:ring-white/5 rounded-lg shadow-2xl shadow-gray-500/20 dark:shadow-none flex motion-safe:hover:scale-[1.01] transition-all duration-250 focus:outline focus:outline-2 focus:outline-red-500">
-                            <div>
-                                <h2 class="text-xl font-semibold text-gray-900 dark:text-white">Welcome to Library App</h2>
-                                <p class="mt-4 text-gray-500 dark:text-gray-400 text-sm leading-relaxed">
-                                    A comprehensive library management system for managing books, members, and borrowings.
-                                </p>
-                            </div>
+                <!-- Features Grid -->
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6 mb-12">
+                    
+                    <!-- Feature 1: Books -->
+                    <div class="bg-white border border-black rounded-lg p-6 shadow-[6px_6px_0px_rgba(0,0,0,1)] transition-all">
+                        <div class="p-3 bg-purple-300 border border-black rounded-md mb-4 w-fit">
+                            <svg class="w-6 h-6 text-black" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.746 0 3.332.477 4.5 1.253v13C19.832 18.477 18.246 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"/>
+                            </svg>
                         </div>
+                        <h3 class="text-lg font-bold text-gray-900 mb-2">Manajemen Buku</h3>
+                        <p class="text-sm text-gray-600">Kelola koleksi buku dengan kategori, pengarang, dan stok yang terorganisir</p>
+                    </div>
 
-                        <div class="scale-100 p-6 bg-white dark:bg-gray-800/50 dark:bg-gradient-to-bl from-gray-700/50 via-transparent dark:ring-1 dark:ring-inset dark:ring-white/5 rounded-lg shadow-2xl shadow-gray-500/20 dark:shadow-none flex motion-safe:hover:scale-[1.01] transition-all duration-250 focus:outline focus:outline-2 focus:outline-red-500">
-                            <div>
-                                <h2 class="text-xl font-semibold text-gray-900 dark:text-white">Get Started</h2>
-                                <p class="mt-4 text-gray-500 dark:text-gray-400 text-sm leading-relaxed">
-                                    Login or register to access the library management system and start managing your library resources.
-                                </p>
-                                <div class="mt-4 flex gap-4">
-                                    <a href="{{ route('login') }}" class="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded">
-                                        Login
-                                    </a>
-                                    <a href="{{ route('register') }}" class="bg-gray-500 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded">
-                                        Register
-                                    </a>
-                                </div>
-                            </div>
+                    <!-- Feature 2: Members -->
+                    <div class="bg-white border border-black rounded-lg p-6 shadow-[6px_6px_0px_rgba(0,0,0,1)] transition-all">
+                        <div class="p-3 bg-green-500 border border-black rounded-md mb-4 w-fit">
+                            <svg class="w-6 h-6 text-black" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197m13.5-9a2.5 2.5 0 11-5 0 2.5 2.5 0 015 0z"/>
+                            </svg>
                         </div>
+                        <h3 class="text-lg font-bold text-gray-900 mb-2">Manajemen Anggota</h3>
+                        <p class="text-sm text-gray-600">Kelola data anggota perpustakaan dan status keanggotaan mereka</p>
+                    </div>
+
+                    <!-- Feature 3: Borrowing -->
+                    <div class="bg-white border border-black rounded-lg p-6 shadow-[6px_6px_0px_rgba(0,0,0,1)] transition-all">
+                        <div class="p-3 bg-blue-300 border border-black rounded-md mb-4 w-fit">
+                            <svg class="w-6 h-6 text-black" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                            </svg>
+                        </div>
+                        <h3 class="text-lg font-bold text-gray-900 mb-2">Manajemen Peminjaman</h3>
+                        <p class="text-sm text-gray-600">Catat peminjaman dan pengembalian buku dengan tracking tanggal jatuh tempo</p>
+                    </div>
+
+                    <!-- Feature 4: Dashboard -->
+                    <div class="bg-white border border-black rounded-lg p-6 shadow-[6px_6px_0px_rgba(0,0,0,1)] transition-all">
+                        <div class="p-3 bg-yellow-300 border border-black rounded-md mb-4 w-fit">
+                            <svg class="w-6 h-6 text-black" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"/>
+                            </svg>
+                        </div>
+                        <h3 class="text-lg font-bold text-gray-900 mb-2">Dashboard Statistik</h3>
+                        <p class="text-sm text-gray-600">Lihat ringkasan statistik dan laporan terkini tentang perpustakaan Anda</p>
+                    </div>
+
+                </div>
+
+                <!-- CTA Section -->
+                <div class="bg-gradient-to-r from-purple-300 to-blue-300 border-4 border-black rounded-lg p-8 sm:p-12 shadow-[8px_8px_0px_rgba(0,0,0,1)] text-center">
+                    <h2 class="text-2xl sm:text-3xl font-bold text-gray-900 mb-4">
+                        Siap Mengelola Perpustakaan Anda?
+                    </h2>
+                    <p class="text-gray-800 mb-8 text-lg">
+                        Masuk atau daftar sekarang untuk memulai menggunakan sistem manajemen perpustakaan
+                    </p>
+                    <div class="flex flex-col sm:flex-row gap-4 justify-center">
+                        @if (Route::has('login'))
+                            <a href="{{ route('login') }}" 
+                               class="bg-cyan-400 hover:bg-cyan-500 border-2 border-black text-gray-900 font-bold py-3 px-8 rounded-lg shadow-[4px_4px_0px_rgba(0,0,0,1)] active:translate-x-[2px] active:translate-y-[2px] active:shadow-none transition-all inline-block">
+                                🔐 Masuk
+                            </a>
+                        @endif
+
+                        @if (Route::has('register'))
+                            <a href="{{ route('register') }}" 
+                               class="bg-green-400 hover:bg-green-500 border-2 border-black text-gray-900 font-bold py-3 px-8 rounded-lg shadow-[4px_4px_0px_rgba(0,0,0,1)] active:translate-x-[2px] active:translate-y-[2px] active:shadow-none transition-all inline-block">
+                                ✍️ Daftar
+                            </a>
+                        @endif
                     </div>
                 </div>
+
             </div>
         </div>
     </body>

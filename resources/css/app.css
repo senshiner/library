@@ -1,3 +1,34 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+/* Utilities for Alpine.js x-cloak (hide elements until Alpine initialises) */
+[x-cloak] {
+    display: none !important;
+}
+
+/* Styles moved from resources/views/dashboard.blade.php */
+.animate-marquee {
+    animation: marquee 20s linear infinite;
+    display: inline-block;
+    padding-left: 100%;
+}
+
+@keyframes marquee {
+    0% {
+        transform: translateX(0);
+    }
+    100% {
+        transform: translateX(-100%);
+    }
+}
+
+.transition-all {
+    transition: all 0.2s ease-in-out;
+}
+
+@media (max-width: 360px) {
+    .grid-cols-2 {
+        grid-template-columns: 1fr;
+    }
+}
