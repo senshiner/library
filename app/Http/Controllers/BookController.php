@@ -5,12 +5,27 @@ namespace App\Http\Controllers;
 use App\Models\Book;
 use App\Models\Category;
 use Illuminate\Http\Request;
+use App\Http\Requests\StoreBookRequest;
+use App\Http\Requests\UpdateBookRequest;
 
 class BookController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        $books = Book::with('category')->get();
+        $query = Book::with('category');
+
+        if ($search = $request->input('q')) {
+            $query->where(function ($q) use ($search) {
+                $q->where('title', 'like', "%{$search}%")
+                  ->orWhere('author', 'like', "%{$search}%")
+                  ->orWhereHas('category', function ($catQuery) use ($search) {
+                      $catQuery->where('name', 'like', "%{$search}%");
+                  });
+            });
+        }
+
+        $books = $query->orderBy('title')->paginate(10)->withQueryString();
+
         return view('books.index', compact('books'));
     }
 
@@ -20,16 +35,9 @@ class BookController extends Controller
         return view('books.create', compact('categories'));
     }
 
-    public function store(Request $request)
+    public function store(StoreBookRequest $request)
     {
-        $request->validate([
-            'title' => 'required|string|max:255',
-            'author' => 'required|string|max:255',
-            'category_id' => 'required|exists:categories,id',
-            'quantity' => 'required|integer|min:1',
-        ]);
-
-        Book::create($request->all());
+        Book::create($request->validated());
 
         return redirect()->route('books.index')
             ->with('success', 'Buku berhasil ditambahkan.');
@@ -46,16 +54,9 @@ class BookController extends Controller
         return view('books.edit', compact('book', 'categories'));
     }
 
-    public function update(Request $request, Book $book)
+    public function update(UpdateBookRequest $request, Book $book)
     {
-        $request->validate([
-            'title' => 'required|string|max:255',
-            'author' => 'required|string|max:255',
-            'category_id' => 'required|exists:categories,id',
-            'quantity' => 'required|integer|min:1',
-        ]);
-
-        $book->update($request->all());
+        $book->update($request->validated());
 
         return redirect()->route('books.index')
             ->with('success', 'Buku berhasil diupdate.');

@@ -8,6 +8,7 @@ use App\Models\Member;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 
 class BorrowController extends Controller
 {
@@ -33,28 +34,40 @@ class BorrowController extends Controller
             'due_date' => 'required|date|after:borrow_date',
         ]);
 
-        // Check book availability
-        $book = Book::find($request->book_id);
-        if ($book->available < 1) {
-            return back()->with('error', 'Buku tidak tersedia untuk dipinjam.');
+        // Use transaction & pessimistic locking to prevent race conditions
+        try {
+            $borrow = DB::transaction(function () use ($request) {
+                // Lock book row for update (SELECT ... FOR UPDATE)
+                $book = Book::lockForUpdate()->findOrFail($request->book_id);
+
+                // Check book availability after lock
+                if ($book->available < 1) {
+                    throw new \Exception('Buku tidak tersedia untuk dipinjam.');
+                }
+
+                // Create borrow record
+                $borrow = Borrow::create([
+                    'book_id' => $request->book_id,
+                    'member_id' => $request->member_id,
+                    'user_id' => Auth::id() ?? 1,
+                    'borrow_date' => $request->borrow_date,
+                    'due_date' => $request->due_date,
+                    'status' => 'borrowed',
+                    'notes' => $request->notes ?? null,
+                ]);
+
+                // Decrement book availability (atomic operation)
+                $book->decrement('available');
+
+                return $borrow;
+            });
+
+            return redirect()->route('borrows.index')
+                ->with('success', 'Peminjaman berhasil dicatat.');
+
+        } catch (\Exception $e) {
+            return back()->with('error', $e->getMessage() ?? 'Peminjaman gagal. Silakan coba lagi.');
         }
-
-        // Create borrow record
-        $borrow = Borrow::create([
-            'book_id' => $request->book_id,
-            'member_id' => $request->member_id,
-            'user_id' => Auth::id() ?? 1, // Default to user 1 if no auth
-            'borrow_date' => $request->borrow_date,
-            'due_date' => $request->due_date,
-            'status' => 'borrowed',
-            'notes' => $request->notes,
-        ]);
-
-        // Update book availability
-        $book->decrement('available');
-
-        return redirect()->route('borrows.index')
-            ->with('success', 'Peminjaman berhasil dicatat.');
     }
 
     public function show(Borrow $borrow)
@@ -96,16 +109,33 @@ class BorrowController extends Controller
 
     public function returnBook(Borrow $borrow)
     {
-        // Update borrow status
-        $borrow->update([
-            'return_date' => now(),
-            'status' => 'returned',
-        ]);
+        // Use transaction & pessimistic locking to prevent race conditions
+        try {
+            DB::transaction(function () use ($borrow) {
+                // Lock borrow & book rows for update
+                $borrow = Borrow::lockForUpdate()->findOrFail($borrow->id);
+                $book = Book::lockForUpdate()->findOrFail($borrow->book_id);
 
-        // Update book availability
-        $borrow->book->increment('available');
+                // Check if already returned (prevent double return)
+                if ($borrow->status === 'returned') {
+                    throw new \Exception('Buku ini sudah dikembalikan sebelumnya.');
+                }
 
-        return redirect()->route('borrows.index')
-            ->with('success', 'Buku berhasil dikembalikan.');
+                // Update borrow status
+                $borrow->update([
+                    'return_date' => now(),
+                    'status' => 'returned',
+                ]);
+
+                // Increment book availability (atomic operation)
+                $book->increment('available');
+            });
+
+            return redirect()->route('borrows.index')
+                ->with('success', 'Buku berhasil dikembalikan.');
+
+        } catch (\Exception $e) {
+            return back()->with('error', $e->getMessage() ?? 'Pengembalian gagal. Silakan coba lagi.');
+        }
     }
 }

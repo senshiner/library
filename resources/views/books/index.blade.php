@@ -8,19 +8,29 @@
                 <h2 class="text-2xl sm:text-3xl font-bold text-gray-900">
                     Daftar Buku
                 </h2>
+                <div class="flex items-center gap-3">
+                    <form action="{{ route('books.index') }}" method="GET" class="flex items-center">
+                        <input type="search" name="q" value="{{ request('q') }}"
+                               placeholder="Cari judul, pengarang, atau kategori..."
+                               class="px-3 py-2 border border-black rounded-l-md focus:outline-none" />
+                        <button type="submit" class="bg-gray-100 border border-black px-3 py-2 rounded-r-md">
+                            Cari
+                        </button>
+                    </form>
 
-                <a href="{{ route('books.create') }}"
-                   class="bg-cyan-400 hover:bg-cyan-500 border border-black text-gray-900
-                          shadow-[3px_3px_0px_rgba(0,0,0,1)]
-                          active:translate-x-[2px] active:translate-y-[2px] active:shadow-none
-                          transition-all px-4 py-2 rounded-md font-medium inline-flex items-center gap-2">
+                    <a href="{{ route('books.create') }}"
+                       class="bg-cyan-400 hover:bg-cyan-500 border border-black text-gray-900
+                              shadow-[3px_3px_0px_rgba(0,0,0,1)]
+                              active:translate-x-[2px] active:translate-y-[2px] active:shadow-none
+                              transition-all px-4 py-2 rounded-md font-medium inline-flex items-center gap-2">
 
-                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                              d="M12 4v16m8-8H4" />
-                    </svg>
-                    Tambah Buku
-                </a>
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                  d="M12 4v16m8-8H4" />
+                        </svg>
+                        Tambah Buku
+                    </a>
+                </div>
             </div>
 
             <!-- Success Alert -->
@@ -103,6 +113,11 @@
                         </tbody>
 
                     </table>
+                </div>
+
+                <!-- Pagination -->
+                <div class="px-4 py-3 bg-white border-t border-black flex items-center justify-end">
+                    {{ $books->links() }}
                 </div>
 
             </div>
