@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\ProfileUpdateRequest;
+use App\Models\Member;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -16,8 +17,14 @@ class ProfileController extends Controller
      */
     public function edit(Request $request): View
     {
+        $user = $request->user();
+        
+        // Get member record for additional info (phone, address)
+        $member = Member::where('email', $user->email)->first();
+
         return view('profile.edit', [
-            'user' => $request->user(),
+            'user' => $user,
+            'member' => $member,
         ]);
     }
 
@@ -33,6 +40,17 @@ class ProfileController extends Controller
         }
 
         $request->user()->save();
+
+        // Update Member record if exists
+        $member = Member::where('email', $request->user()->email)->first();
+        if ($member) {
+            $member->update([
+                'name' => $request->user()->name,
+                'email' => $request->user()->email,
+                'phone' => $request->input('phone'),
+                'address' => $request->input('address'),
+            ]);
+        }
 
         return Redirect::route('profile.edit')->with('status', 'profile-updated');
     }

@@ -16,7 +16,9 @@
                         {{ __('Dashboard') }}
                     </x-nav-link>
                 </div>
-                <!-- Library Links -->
+                
+                <!-- Admin Only Links -->
+                @if(auth()->check() && auth()->user()->isAdmin())
                 <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
                     <x-nav-link :href="route('books.index')" :active="request()->routeIs('books.*')">
                         {{ __('Books') }}
@@ -27,7 +29,23 @@
                     <x-nav-link :href="route('borrows.index')" :active="request()->routeIs('borrows.*')">
                         {{ __('Borrowing') }}
                     </x-nav-link>
+                    <x-nav-link :href="route('users.index')" :active="request()->routeIs('users.*')">
+                        {{ __('Users') }}
+                    </x-nav-link>
                 </div>
+                @endif
+                
+                <!-- Member Only Links -->
+                @if(auth()->check() && auth()->user()->isMember())
+                <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
+                    <x-nav-link :href="route('books.index')" :active="request()->routeIs('books.*')">
+                        {{ __('Catalog') }}
+                    </x-nav-link>
+                    <x-nav-link :href="route('borrows.create')" :active="request()->routeIs('borrows.create')">
+                        {{ __('Borrow Book') }}
+                    </x-nav-link>
+                </div>
+                @endif
             </div>
 
             <!-- Settings Dropdown -->
@@ -79,21 +97,37 @@
             <x-responsive-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')">
                 {{ __('Dashboard') }}
             </x-responsive-nav-link>
-            <x-responsive-nav-link :href="route('books.index')" :active="request()->routeIs('books.*')">
-                {{ __('Books') }}
-            </x-responsive-nav-link>
-            <x-responsive-nav-link :href="route('members.index')" :active="request()->routeIs('members.*')">
-                {{ __('Members') }}
-            </x-responsive-nav-link>
-            <x-responsive-nav-link :href="route('borrows.index')" :active="request()->routeIs('borrows.*')">
-                {{ __('Borrowing') }}
-            </x-responsive-nav-link>
+            
+            @if(auth()->check() && auth()->user()->isAdmin())
+                <x-responsive-nav-link :href="route('books.index')" :active="request()->routeIs('books.*')">
+                    {{ __('Books') }}
+                </x-responsive-nav-link>
+                <x-responsive-nav-link :href="route('members.index')" :active="request()->routeIs('members.*')">
+                    {{ __('Members') }}
+                </x-responsive-nav-link>
+                <x-responsive-nav-link :href="route('borrows.index')" :active="request()->routeIs('borrows.*')">
+                    {{ __('Borrowing') }}
+                </x-responsive-nav-link>
+                <x-responsive-nav-link :href="route('users.index')" :active="request()->routeIs('users.*')">
+                    {{ __('Users') }}
+                </x-responsive-nav-link>
+            @elseif(auth()->check() && auth()->user()->isMember())
+                <x-responsive-nav-link :href="route('books.index')" :active="request()->routeIs('books.*')">
+                    {{ __('Catalog') }}
+                </x-responsive-nav-link>
+                <x-responsive-nav-link :href="route('borrows.create')" :active="request()->routeIs('borrows.create')">
+                    {{ __('Borrow Book') }}
+                </x-responsive-nav-link>
+            @endif
         </div>
         <!-- Responsive Settings Options -->
         <div class="pt-4 pb-1 border-t border-black">
             <div class="px-4">
                 <div class="font-medium text-base text-gray-900">{{ Auth::user()->name }}</div>
                 <div class="font-medium text-sm text-gray-900">{{ Auth::user()->email }}</div>
+                <div class="font-medium text-xs text-gray-600">
+                    {{ auth()->user()->isAdmin() ? '👤 Admin' : '📚 Member' }}
+                </div>
             </div>
 
             <div class="mt-3 space-y-1">

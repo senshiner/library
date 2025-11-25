@@ -9,6 +9,7 @@
                     Daftar Buku
                 </h2>
 
+                @if(auth()->user()->isAdmin())
                 <a href="{{ route('books.create') }}"
                    class="bg-cyan-400 hover:bg-cyan-500 border border-black text-gray-900
                           shadow-[3px_3px_0px_rgba(0,0,0,1)]
@@ -21,6 +22,7 @@
                     </svg>
                     Tambah Buku
                 </a>
+                @endif
             </div>
 
             <!-- Success Alert -->
@@ -65,16 +67,17 @@
                                               px-3 py-1 rounded shadow-[2px_2px_0px_rgba(0,0,0,1)]
                                               active:translate-x-[2px] active:translate-y-[2px] active:shadow-none
                                               transition-all text-sm font-medium">
-                                        Lihat
+                                        👁️ Lihat
                                     </a>
 
+                                    @if(auth()->user()->isAdmin())
                                     <!-- Edit -->
                                     <a href="{{ route('books.edit', $book) }}"
                                        class="bg-yellow-300 hover:bg-yellow-400 border border-black 
                                               px-3 py-1 rounded shadow-[2px_2px_0px_rgba(0,0,0,1)]
                                               active:translate-x-[2px] active:translate-y-[2px] active:shadow-none
                                               transition-all text-sm font-medium">
-                                        Edit
+                                        ✏️ Edit
                                     </a>
 
                                     <!-- Hapus -->
@@ -87,9 +90,10 @@
                                                        px-3 py-1 rounded shadow-[2px_2px_0px_rgba(0,0,0,1)]
                                                        active:translate-x-[2px] active:translate-y-[2px] active:shadow-none
                                                        transition-all text-sm font-medium">
-                                            Hapus
+                                            🗑️ Hapus
                                         </button>
                                     </form>
+                                    @endif
 
                                 </td>
                             </tr>

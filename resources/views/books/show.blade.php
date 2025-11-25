@@ -11,19 +11,21 @@
                         <p class="text-gray-600 mt-2">Informasi lengkap tentang buku</p>
                     </div>
                     <div class="flex gap-2">
-                        <a href="{{ route('books.edit', $book) }}"
-                           class="bg-yellow-300 hover:bg-yellow-400 border border-black text-gray-900
-                                  shadow-[2px_2px_0px_rgba(0,0,0,1)]
-                                  active:translate-x-[1px] active:translate-y-[1px] active:shadow-none
-                                  transition-all px-4 py-2 rounded-md font-medium">
-                            Edit
-                        </a>
+                        @if(auth()->user()->isAdmin())
+                            <a href="{{ route('books.edit', $book) }}"
+                               class="bg-yellow-300 hover:bg-yellow-400 border border-black text-gray-900
+                                      shadow-[2px_2px_0px_rgba(0,0,0,1)]
+                                      active:translate-x-[1px] active:translate-y-[1px] active:shadow-none
+                                      transition-all px-4 py-2 rounded-md font-medium">
+                                ✏️ Edit
+                            </a>
+                        @endif
                         <a href="{{ route('books.index') }}"
                            class="bg-gray-300 hover:bg-gray-400 border border-black text-gray-900
                                   shadow-[2px_2px_0px_rgba(0,0,0,1)]
                                   active:translate-x-[1px] active:translate-y-[1px] active:shadow-none
                                   transition-all px-4 py-2 rounded-md font-medium">
-                            Kembali
+                            👈 Kembali
                         </a>
                     </div>
                 </div>
@@ -107,6 +109,7 @@
                                 <div class="text-sm text-gray-600">
                                     Ditambahkan: {{ $book->created_at->format('d M Y') }}
                                 </div>
+                                @if(auth()->user()->isAdmin())
                                 <div class="flex gap-2">
                                     <form action="{{ route('books.destroy', $book) }}" method="POST" class="inline">
                                         @csrf
@@ -117,10 +120,11 @@
                                                        shadow-[2px_2px_0px_rgba(0,0,0,1)]
                                                        active:translate-x-[1px] active:translate-y-[1px] active:shadow-none
                                                        transition-all px-4 py-2 rounded-md font-medium">
-                                            Hapus
+                                            🗑️ Hapus
                                         </button>
                                     </form>
                                 </div>
+                                @endif
                             </div>
                         </div>
                     </div>

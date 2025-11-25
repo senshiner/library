@@ -2,6 +2,7 @@
 
 namespace App\Providers;
 
+use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
@@ -19,6 +20,13 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
-        //
+        // Define authorization gates for role-based access
+        Gate::define('admin-only', function ($user) {
+            return $user->isAdmin();
+        });
+
+        Gate::define('member-only', function ($user) {
+            return $user->isMember();
+        });
     }
 }

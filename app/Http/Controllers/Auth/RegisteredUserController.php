@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
 use App\Models\User;
+use App\Models\Member;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
@@ -39,6 +40,14 @@ class RegisteredUserController extends Controller
             'name' => $request->name,
             'email' => $request->email,
             'password' => Hash::make($request->password),
+        ]);
+
+        // Auto-create Member record for new user (member role)
+        Member::create([
+            'name' => $user->name,
+            'email' => $user->email,
+            'join_date' => now()->toDateString(),
+            'status' => 'active',
         ]);
 
         event(new Registered($user));

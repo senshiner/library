@@ -1,47 +1,67 @@
 <section>
-    <header>
-        <h2 class="text-lg font-medium text-gray-900 dark:text-gray-100">
-            {{ __('Update Password') }}
+    <div class="mb-6">
+        <h2 class="text-xl font-bold text-gray-900 mb-2">
+            🔐 Ubah Kata Sandi
         </h2>
-
-        <p class="mt-1 text-sm text-gray-600 dark:text-gray-400">
-            {{ __('Ensure your account is using a long, random password to stay secure.') }}
+        <p class="text-sm text-gray-600">
+            Pastikan akun Anda menggunakan kata sandi yang kuat dan acak untuk keamanan maksimal.
         </p>
-    </header>
+    </div>
 
-    <form method="post" action="{{ route('password.update') }}" class="mt-6 space-y-6">
+    <form method="post" action="{{ route('password.update') }}" class="space-y-6">
         @csrf
         @method('put')
 
+        <!-- Current Password -->
         <div>
-            <x-input-label for="update_password_current_password" :value="__('Current Password')" />
-            <x-text-input id="update_password_current_password" name="current_password" type="password" class="mt-1 block w-full" autocomplete="current-password" />
-            <x-input-error :messages="$errors->updatePassword->get('current_password')" class="mt-2" />
+            <label for="update_password_current_password" class="block text-sm font-bold text-gray-900 mb-2">
+                🔑 Kata Sandi Saat Ini
+            </label>
+            <input id="update_password_current_password" name="current_password" type="password" 
+                   class="w-full px-3 py-2 border border-black rounded-md bg-white text-gray-900 focus:outline-none focus:ring-2 focus:ring-cyan-400"
+                   autocomplete="current-password" />
+            @if($errors->updatePassword->has('current_password'))
+                <span class="text-red-600 text-sm mt-1 block">{{ $errors->updatePassword->first('current_password') }}</span>
+            @endif
         </div>
 
+        <!-- New Password -->
         <div>
-            <x-input-label for="update_password_password" :value="__('New Password')" />
-            <x-text-input id="update_password_password" name="password" type="password" class="mt-1 block w-full" autocomplete="new-password" />
-            <x-input-error :messages="$errors->updatePassword->get('password')" class="mt-2" />
+            <label for="update_password_password" class="block text-sm font-bold text-gray-900 mb-2">
+                ✨ Kata Sandi Baru
+            </label>
+            <input id="update_password_password" name="password" type="password" 
+                   class="w-full px-3 py-2 border border-black rounded-md bg-white text-gray-900 focus:outline-none focus:ring-2 focus:ring-cyan-400"
+                   autocomplete="new-password" />
+            @if($errors->updatePassword->has('password'))
+                <span class="text-red-600 text-sm mt-1 block">{{ $errors->updatePassword->first('password') }}</span>
+            @endif
         </div>
 
+        <!-- Confirm Password -->
         <div>
-            <x-input-label for="update_password_password_confirmation" :value="__('Confirm Password')" />
-            <x-text-input id="update_password_password_confirmation" name="password_confirmation" type="password" class="mt-1 block w-full" autocomplete="new-password" />
-            <x-input-error :messages="$errors->updatePassword->get('password_confirmation')" class="mt-2" />
+            <label for="update_password_password_confirmation" class="block text-sm font-bold text-gray-900 mb-2">
+                ✓ Konfirmasi Kata Sandi
+            </label>
+            <input id="update_password_password_confirmation" name="password_confirmation" type="password" 
+                   class="w-full px-3 py-2 border border-black rounded-md bg-white text-gray-900 focus:outline-none focus:ring-2 focus:ring-cyan-400"
+                   autocomplete="new-password" />
+            @if($errors->updatePassword->has('password_confirmation'))
+                <span class="text-red-600 text-sm mt-1 block">{{ $errors->updatePassword->first('password_confirmation') }}</span>
+            @endif
         </div>
 
-        <div class="flex items-center gap-4">
-            <x-primary-button>{{ __('Save') }}</x-primary-button>
+        <!-- Action Button -->
+        <div class="flex gap-3 pt-4 border-t border-gray-300">
+            <button type="submit" 
+                    class="flex-1 bg-cyan-400 hover:bg-cyan-500 border border-black text-gray-900 font-bold py-2 px-4 rounded-md shadow-[3px_3px_0px_rgba(0,0,0,1)] active:translate-x-[2px] active:translate-y-[2px] active:shadow-none transition-all">
+                💾 Ubah Kata Sandi
+            </button>
 
             @if (session('status') === 'password-updated')
-                <p
-                    x-data="{ show: true }"
-                    x-show="show"
-                    x-transition
-                    x-init="setTimeout(() => show = false, 2000)"
-                    class="text-sm text-gray-600 dark:text-gray-400"
-                >{{ __('Saved.') }}</p>
+                <div class="p-2 bg-green-50 border border-green-400 text-green-800 text-sm rounded-md">
+                    ✓ Kata sandi berhasil diubah!
+                </div>
             @endif
         </div>
     </form>
