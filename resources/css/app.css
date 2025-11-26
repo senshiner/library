@@ -32,3 +32,95 @@
         grid-template-columns: 1fr;
     }
 }
+
+/* Theme variables and small helpers to avoid repeated duplicated classes across blades.
+   Use these variables in templates via simple helper classes: .bg-card, .text-fg, .icon-fill, .border-theme, .shadow-theme, .bg-icon
+   This allows switching colors by toggling `.dark` on <html> (Tailwind class-based dark mode).
+*/
+:root {
+    --bg: #ecfeff; /* soft cyan (light mode) */
+    --card-bg: #ffffff;
+    --card-bg-2: #f0f9ff; /* subtle cyan panel */
+    --fg: #0f1724; /* slate-900 */
+    --muted: #64748b; /* gray-500 */
+    --border: rgba(0, 0, 0, 1);
+    --icon: rgba(0, 0, 0, 1);
+    --icon-bg: #ffffff;
+    --shadow-x: 6px;
+    --shadow-y: 6px;
+    --shadow-color: rgba(0, 0, 0, 1);
+}
+
+.dark {
+    --bg: #071427; /* soft dark navy */
+    --card-bg: #08192a; /* slightly lighter card on dark navy */
+    --card-bg-2: #0b2236; /* alternate panel */
+    --fg: #f8fafc; /* slate-50 */
+    --muted: #94a3b8; /* gray-400 */
+    --border: rgba(255, 255, 255, 1);
+    --icon: rgba(255, 255, 255, 1);
+    --icon-bg: rgba(255, 255, 255, 0.04);
+    --shadow-x: 4px;
+    --shadow-y: 4px;
+    --shadow-color: rgba(255, 255, 255, 1);
+}
+
+.bg-card {
+    background-color: var(--card-bg);
+}
+.bg-card-2 {
+    background-color: var(--card-bg-2);
+}
+.text-fg {
+    color: var(--fg);
+}
+.text-muted {
+    color: var(--muted);
+}
+.border-theme {
+    border-color: var(--border);
+}
+.icon-fill {
+    color: var(--icon);
+}
+.bg-icon {
+    background-color: var(--icon-bg);
+}
+.shadow-theme {
+    box-shadow: var(--shadow-x) var(--shadow-y) 0 var(--shadow-color) !important;
+}
+
+/* Ensure any Tailwind-generated shadow utilities use our theme shadow color in dark mode.
+   This targets any element with a class containing "shadow-" when `.dark` is active and forces
+   the box-shadow to use the theme variable. This helps cover leftover inline shadow utilities
+   across many blades without needing to replace every occurrence immediately.
+*/
+.dark [class*="shadow-"] {
+    box-shadow: var(--shadow-x) var(--shadow-y) 0 var(--shadow-color) !important;
+}
+
+/* Root/background helper so layout can just use .bg-root and inherit the CSS var */
+.bg-root {
+    background-color: var(--bg);
+}
+
+/* Base layer: ensure html/body inherit our variables for color & background so you don't need per-element dark: classes */
+@layer base {
+    html {
+        background-color: var(--bg);
+        color: var(--fg);
+    }
+    body {
+        background-color: var(--bg);
+        color: var(--fg);
+    }
+}
+
+/* Make SVG icons that use currentColor follow the theme token when `.icon-fill` applied */
+.icon-fill {
+    color: var(--icon);
+}
+.icon-fill[fill="currentColor"],
+.icon-fill[stroke="currentColor"] {
+    color: var(--icon);
+}

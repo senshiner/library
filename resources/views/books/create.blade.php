@@ -1,18 +1,17 @@
 <x-app-layout>
 
-    <div class="py-6 sm:py-12 bg-cyan-50 min-h-screen">
+    <div class="py-6 sm:py-12 bg-root min-h-screen">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="max-w-2xl mx-auto">
 
                 <!-- Title -->
                 <div class="mb-6">
-                    <h2 class="text-2xl sm:text-3xl font-bold text-gray-900">Tambah Buku Baru</h2>
-                    <p class="text-gray-600 mt-2">Isi form berikut untuk menambah buku baru</p>
+                    <h2 class="text-2xl sm:text-3xl font-bold text-fg">Tambah Buku Baru</h2>
+                    <p class="text-muted mt-2">Isi form berikut untuk menambah buku baru</p>
                 </div>
 
                 <!-- Form Container -->
-                <div class="bg-white border border-black rounded-lg 
-                            shadow-[6px_6px_0px_rgba(0,0,0,1)] p-6">
+                <div class="bg-card border border-theme rounded-lg shadow-theme p-6">
 
                     <form action="{{ route('books.store') }}" method="POST">
                         @csrf

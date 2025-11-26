@@ -1,18 +1,18 @@
 <x-app-layout>
 
-    <div class="py-6 sm:py-12 bg-cyan-50 min-h-screen">
+    <div class="py-6 sm:py-12 bg-cyan-50 dark:bg-slate-900 min-h-screen">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="max-w-2xl mx-auto">
 
                 <!-- Title -->
                 <div class="mb-6">
-                    <h2 class="text-2xl sm:text-3xl font-bold text-gray-900">Peminjaman Buku Baru</h2>
-                    <p class="text-gray-600 mt-2">Isi form untuk mencatat peminjaman buku</p>
+                    <h2 class="text-2xl sm:text-3xl font-bold text-gray-900 dark:text-gray-100">Peminjaman Buku Baru</h2>
+                    <p class="text-gray-600 dark:text-gray-300 mt-2">Isi form untuk mencatat peminjaman buku</p>
                 </div>
 
                 <!-- Form Container -->
                 <div class="bg-white border border-black rounded-lg 
-                            shadow-[6px_6px_0px_rgba(0,0,0,1)] p-6">
+                            shadow-[6px_6px_0px_rgba(0,0,0,1)] p-6 dark:bg-slate-800 dark:border-white/20">
 
                     <form action="{{ route('borrows.store') }}" method="POST">
                         @csrf
@@ -20,11 +20,11 @@
                         <div class="grid grid-cols-1 gap-6">
                             <!-- Pilih Buku -->
                             <div>
-                                <label for="book_id" class="block text-sm font-medium text-gray-900 mb-2">Pilih Buku *</label>
+                                <label for="book_id" class="block text-sm font-medium text-gray-900 dark:text-gray-100 mb-2">Pilih Buku *</label>
                                 <select name="book_id" id="book_id" required
                                     class="block w-full border border-black rounded-md shadow-[2px_2px_0px_rgba(0,0,0,1)]
                                            py-2 px-3 focus:outline-none focus:ring-2 focus:ring-cyan-500 focus:border-cyan-500
-                                           bg-white text-gray-900">
+                                           bg-white dark:bg-slate-800 text-gray-900 dark:text-gray-100 dark:border-white/10">
                                     <option value="">Pilih Buku</option>
                                     @foreach($books as $book)
                                         <option value="{{ $book->id }}" data-available="{{ $book->available }}">
@@ -39,11 +39,11 @@
 
                             <!-- Pilih Anggota -->
                             <div>
-                                <label for="member_id" class="block text-sm font-medium text-gray-900 mb-2">Pilih Anggota *</label>
+                                <label for="member_id" class="block text-sm font-medium text-gray-900 dark:text-gray-100 mb-2">Pilih Anggota *</label>
                                 <select name="member_id" id="member_id" required
                                     class="block w-full border border-black rounded-md shadow-[2px_2px_0px_rgba(0,0,0,1)]
                                            py-2 px-3 focus:outline-none focus:ring-2 focus:ring-cyan-500 focus:border-cyan-500
-                                           bg-white text-gray-900">
+                                           bg-white dark:bg-slate-800 text-gray-900 dark:text-gray-100 dark:border-white/10">
                                     <option value="">Pilih Anggota</option>
                                     @foreach($members as $member)
                                         <option value="{{ $member->id }}">
@@ -58,12 +58,12 @@
 
                             <!-- Tanggal Pinjam -->
                             <div>
-                                <label for="borrow_date" class="block text-sm font-medium text-gray-900 mb-2">Tanggal Pinjam *</label>
-                                <input type="date" name="borrow_date" id="borrow_date" required
-                                    class="block w-full border border-black rounded-md shadow-[2px_2px_0px_rgba(0,0,0,1)]
-                                           py-2 px-3 focus:outline-none focus:ring-2 focus:ring-cyan-500 focus:border-cyan-500
-                                           bg-white text-gray-900"
-                                    value="{{ old('borrow_date', date('Y-m-d')) }}">
+                    <label for="borrow_date" class="block text-sm font-medium text-gray-900 dark:text-gray-100 mb-2">Tanggal Pinjam *</label>
+                    <input type="date" name="borrow_date" id="borrow_date" required
+                     class="block w-full border border-black rounded-md shadow-[2px_2px_0px_rgba(0,0,0,1)]
+                         py-2 px-3 focus:outline-none focus:ring-2 focus:ring-cyan-500 focus:border-cyan-500
+                         bg-white dark:bg-slate-800 text-gray-900 dark:text-gray-100 dark:border-white/10"
+                     value="{{ old('borrow_date', date('Y-m-d')) }}">
                                 @error('borrow_date')
                                     <p class="mt-1 text-sm text-red-600 font-medium">{{ $message }}</p>
                                 @enderror
@@ -71,12 +71,12 @@
 
                             <!-- Tanggal Jatuh Tempo -->
                             <div>
-                                <label for="due_date" class="block text-sm font-medium text-gray-900 mb-2">Tanggal Jatuh Tempo *</label>
-                                <input type="date" name="due_date" id="due_date" required
-                                    class="block w-full border border-black rounded-md shadow-[2px_2px_0px_rgba(0,0,0,1)]
-                                           py-2 px-3 focus:outline-none focus:ring-2 focus:ring-cyan-500 focus:border-cyan-500
-                                           bg-white text-gray-900"
-                                    value="{{ old('due_date', date('Y-m-d', strtotime('+7 days'))) }}">
+                    <label for="due_date" class="block text-sm font-medium text-gray-900 dark:text-gray-100 mb-2">Tanggal Jatuh Tempo *</label>
+                    <input type="date" name="due_date" id="due_date" required
+                     class="block w-full border border-black rounded-md shadow-[2px_2px_0px_rgba(0,0,0,1)]
+                         py-2 px-3 focus:outline-none focus:ring-2 focus:ring-cyan-500 focus:border-cyan-500
+                         bg-white dark:bg-slate-800 text-gray-900 dark:text-gray-100 dark:border-white/10"
+                     value="{{ old('due_date', date('Y-m-d', strtotime('+7 days'))) }}">
                                 @error('due_date')
                                     <p class="mt-1 text-sm text-red-600 font-medium">{{ $message }}</p>
                                 @enderror
@@ -85,11 +85,11 @@
 
                             <!-- Catatan -->
                             <div>
-                                <label for="notes" class="block text-sm font-medium text-gray-900 mb-2">Catatan</label>
+                                <label for="notes" class="block text-sm font-medium text-gray-900 dark:text-gray-100 mb-2">Catatan</label>
                                 <textarea name="notes" id="notes" rows="3"
                                     class="block w-full border border-black rounded-md shadow-[2px_2px_0px_rgba(0,0,0,1)]
                                            py-2 px-3 focus:outline-none focus:ring-2 focus:ring-cyan-500 focus:border-cyan-500
-                                           bg-white text-gray-900">{{ old('notes') }}</textarea>
+                                           bg-white dark:bg-slate-800 text-gray-900 dark:text-gray-100 dark:border-white/10">{{ old('notes') }}</textarea>
                                 @error('notes')
                                     <p class="mt-1 text-sm text-red-600 font-medium">{{ $message }}</p>
                                 @enderror
@@ -98,18 +98,18 @@
 
                         <!-- Buttons -->
                         <div class="mt-6 flex justify-end space-x-3">
-                            <a href="{{ route('borrows.index') }}" 
-                               class="bg-gray-300 hover:bg-gray-400 border border-black text-gray-900
-                                      shadow-[2px_2px_0px_rgba(0,0,0,1)]
-                                      active:translate-x-[1px] active:translate-y-[1px] active:shadow-none
-                                      transition-all px-4 py-2 rounded-md font-medium">
+                <a href="{{ route('borrows.index') }}" 
+                   class="bg-gray-300 hover:bg-gray-400 dark:bg-gray-700 dark:hover:bg-gray-600 border border-black text-gray-900 dark:text-gray-100
+                       shadow-[2px_2px_0px_rgba(0,0,0,1)]
+                       active:translate-x-[1px] active:translate-y-[1px] active:shadow-none
+                       transition-all px-4 py-2 rounded-md font-medium">
                                 Batal
                             </a>
-                            <button type="submit" 
-                                    class="bg-cyan-400 hover:bg-cyan-500 border border-black text-gray-900
-                                           shadow-[2px_2px_0px_rgba(0,0,0,1)]
-                                           active:translate-x-[1px] active:translate-y-[1px] active:shadow-none
-                                           transition-all px-4 py-2 rounded-md font-medium">
+                <button type="submit" 
+                     class="bg-cyan-400 hover:bg-cyan-500 dark:bg-cyan-600 dark:hover:bg-cyan-700 border border-black text-gray-900 dark:text-gray-100
+                         shadow-[2px_2px_0px_rgba(0,0,0,1)]
+                         active:translate-x-[1px] active:translate-y-[1px] active:shadow-none
+                         transition-all px-4 py-2 rounded-md font-medium">
                                 Simpan Peminjaman
                             </button>
                         </div>
