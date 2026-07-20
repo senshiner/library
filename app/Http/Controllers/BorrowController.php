@@ -2,12 +2,14 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Borrow;
 use App\Models\Book;
+use App\Models\Borrow;
 use App\Models\Member;
-use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Validation\Rule;
+use RuntimeException;
 
 class BorrowController extends Controller
 {
@@ -26,32 +28,42 @@ class BorrowController extends Controller
 
     public function store(Request $request)
     {
-        $request->validate([
-            'book_id' => 'required|exists:books,id',
-            'member_id' => 'required|exists:members,id',
-            'borrow_date' => 'required|date',
-            'due_date' => 'required|date|after:borrow_date',
+        $validated = $request->validate([
+            'book_id' => ['required', 'exists:books,id'],
+            'member_id' => [
+                'required',
+                Rule::exists('members', 'id')->where('status', 'active'),
+            ],
+            'borrow_date' => ['required', 'date'],
+            'due_date' => ['required', 'date', 'after:borrow_date'],
+            'notes' => ['nullable', 'string', 'max:1000'],
         ]);
 
-        // Check book availability
-        $book = Book::find($request->book_id);
-        if ($book->available < 1) {
-            return back()->with('error', 'Buku tidak tersedia untuk dipinjam.');
+        $borrowed = DB::transaction(function () use ($validated) {
+            $book = Book::whereKey($validated['book_id'])->lockForUpdate()->firstOrFail();
+
+            if ($book->available < 1) {
+                return false;
+            }
+
+            Borrow::create([
+                'book_id' => $book->id,
+                'member_id' => $validated['member_id'],
+                'user_id' => Auth::id(),
+                'borrow_date' => $validated['borrow_date'],
+                'due_date' => $validated['due_date'],
+                'status' => 'borrowed',
+                'notes' => $validated['notes'] ?? null,
+            ]);
+
+            $book->decrement('available');
+
+            return true;
+        });
+
+        if (! $borrowed) {
+            return back()->withInput()->with('error', 'Buku tidak tersedia untuk dipinjam.');
         }
-
-        // Create borrow record
-        $borrow = Borrow::create([
-            'book_id' => $request->book_id,
-            'member_id' => $request->member_id,
-            'user_id' => Auth::id() ?? 1, // Default to user 1 if no auth
-            'borrow_date' => $request->borrow_date,
-            'due_date' => $request->due_date,
-            'status' => 'borrowed',
-            'notes' => $request->notes,
-        ]);
-
-        // Update book availability
-        $book->decrement('available');
 
         return redirect()->route('borrows.index')
             ->with('success', 'Peminjaman berhasil dicatat.');
@@ -65,23 +77,67 @@ class BorrowController extends Controller
 
     public function edit(Borrow $borrow)
     {
-        $books = Book::all();
-        $members = Member::all();
-        return view('borrows.edit', compact('borrow', 'books', 'members'));
+        abort(404);
     }
 
     public function update(Request $request, Borrow $borrow)
     {
-        $request->validate([
-            'book_id' => 'required|exists:books,id',
-            'member_id' => 'required|exists:members,id',
-            'borrow_date' => 'required|date',
-            'due_date' => 'required|date|after:borrow_date',
-            'return_date' => 'nullable|date',
-            'status' => 'required|in:borrowed,returned,overdue',
+        $validated = $request->validate([
+            'book_id' => ['required', 'exists:books,id'],
+            'member_id' => [
+                'required',
+                Rule::exists('members', 'id')->where('status', 'active'),
+            ],
+            'borrow_date' => ['required', 'date'],
+            'due_date' => ['required', 'date', 'after:borrow_date'],
+            'return_date' => ['nullable', 'date', 'after_or_equal:borrow_date'],
+            'status' => ['required', 'in:borrowed,returned,overdue'],
+            'notes' => ['nullable', 'string', 'max:1000'],
         ]);
 
-        $borrow->update($request->all());
+        try {
+            DB::transaction(function () use ($borrow, $validated) {
+                $lockedBorrow = Borrow::whereKey($borrow->id)->lockForUpdate()->firstOrFail();
+                $oldBookId = $lockedBorrow->book_id;
+                $newBookId = (int) $validated['book_id'];
+                $wasActive = $lockedBorrow->status !== 'returned';
+                $willBeActive = $validated['status'] !== 'returned';
+
+                $bookIds = collect([$oldBookId, $newBookId])->unique()->sort()->values();
+                $books = Book::whereIn('id', $bookIds)->lockForUpdate()->get()->keyBy('id');
+                $oldBook = $books[$oldBookId];
+                $newBook = $books[$newBookId];
+
+                if ($wasActive) {
+                    $oldBook->available = min($oldBook->quantity, $oldBook->available + 1);
+                    $oldBook->save();
+                }
+
+                if ($willBeActive) {
+                    $newBook->refresh();
+
+                    if ($newBook->available < 1) {
+                        throw new RuntimeException('Buku tidak tersedia untuk dipinjam.');
+                    }
+
+                    $newBook->decrement('available');
+                }
+
+                $lockedBorrow->update([
+                    'book_id' => $newBookId,
+                    'member_id' => $validated['member_id'],
+                    'borrow_date' => $validated['borrow_date'],
+                    'due_date' => $validated['due_date'],
+                    'return_date' => $validated['status'] === 'returned'
+                        ? ($validated['return_date'] ?? now())
+                        : null,
+                    'status' => $validated['status'],
+                    'notes' => $validated['notes'] ?? null,
+                ]);
+            });
+        } catch (RuntimeException $exception) {
+            return back()->withInput()->with('error', $exception->getMessage());
+        }
 
         return redirect()->route('borrows.index')
             ->with('success', 'Data peminjaman berhasil diupdate.');
@@ -89,21 +145,42 @@ class BorrowController extends Controller
 
     public function destroy(Borrow $borrow)
     {
+        if ($borrow->status !== 'returned') {
+            return back()->with('error', 'Peminjaman aktif tidak boleh dihapus. Kembalikan buku terlebih dahulu.');
+        }
+
         $borrow->delete();
+
         return redirect()->route('borrows.index')
             ->with('success', 'Data peminjaman berhasil dihapus.');
     }
 
     public function returnBook(Borrow $borrow)
     {
-        // Update borrow status
-        $borrow->update([
-            'return_date' => now(),
-            'status' => 'returned',
-        ]);
+        $returned = DB::transaction(function () use ($borrow) {
+            $lockedBorrow = Borrow::whereKey($borrow->id)->lockForUpdate()->firstOrFail();
 
-        // Update book availability
-        $borrow->book->increment('available');
+            if ($lockedBorrow->status === 'returned') {
+                return false;
+            }
+
+            $book = Book::whereKey($lockedBorrow->book_id)->lockForUpdate()->firstOrFail();
+
+            $lockedBorrow->update([
+                'return_date' => now(),
+                'status' => 'returned',
+            ]);
+
+            $book->available = min($book->quantity, $book->available + 1);
+            $book->save();
+
+            return true;
+        });
+
+        if (! $returned) {
+            return redirect()->route('borrows.index')
+                ->with('error', 'Buku sudah ditandai sebagai dikembalikan.');
+        }
 
         return redirect()->route('borrows.index')
             ->with('success', 'Buku berhasil dikembalikan.');

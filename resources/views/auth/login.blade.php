@@ -5,6 +5,14 @@
         <p class="text-gray-600 text-sm mt-1">Masuk ke akun Anda untuk melanjutkan</p>
     </div>
 
+
+    <!-- Demo Credentials -->
+    <div class="mb-4 bg-cyan-50 border border-cyan-600 text-gray-900 px-4 py-3 rounded">
+        <p class="font-semibold">Demo Login</p>
+        <p class="text-sm mt-1">Email: <span class="font-mono">demo@example.com</span></p>
+        <p class="text-sm">Password: <span class="font-mono">password123</span></p>
+    </div>
+
     <!-- Session Status -->
     @if ($errors->any())
         <div class="mb-4 bg-red-100 border border-red-600 text-red-700 px-4 py-3 rounded">

@@ -28,6 +28,14 @@
                     </div>
                 </div>
 
+
+                @if(session('error'))
+                    <div class="bg-red-200 border border-black shadow-[3px_3px_0px_rgba(0,0,0,1)]
+                                px-4 py-3 rounded mb-4 text-gray-900 font-medium">
+                        {{ session('error') }}
+                    </div>
+                @endif
+
                 <!-- Book Detail Container -->
                 <div class="bg-white border border-black rounded-lg 
                             shadow-[6px_6px_0px_rgba(0,0,0,1)] overflow-hidden">
