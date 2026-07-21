@@ -38,7 +38,6 @@
 phpunit.result.cache
 
 # Frontend build
-/public/build/
 /public/hot
 /public/storage
 
