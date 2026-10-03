@@ -4,7 +4,8 @@ Sistem manajemen perpustakaan (Laravel 11 + Blade) — kelola katalog buku,
 anggota, dan peminjaman dalam satu dasbor ber-UI neo-brutalist.
 
 Repo: `senshiner/library` — branch aktif: **`main`** (Laravel).
-Branch **`demo`** berisi versi demo frontend-only (tanpa database).
+Branch **`demo`** berisi versi demo frontend-only (file statis di root,
+tanpa database).
 
 ## Struktur
 
@@ -16,7 +17,6 @@ library/
 ├── public/            # Entry point + build assets
 ├── resources/views/   # Blade templates (Tailwind + Alpine.js)
 ├── routes/            # web.php, auth.php
-├── demo/              # (branch demo) aplikasi demo frontend-only
 ├── .env.example       # Template env → salin ke .env
 └── vercel.json        # Deploy Laravel via vercel-php
 ```
@@ -109,7 +109,7 @@ Coba lokal:
 
 ```bash
 git clone -b demo https://github.com/senshiner/library.git
-cd library/demo
+cd library
 npx serve .   # atau buka index.html langsung
 ```
 
@@ -117,8 +117,8 @@ npx serve .   # atau buka index.html langsung
 
 - Branch **`main`** (Laravel): `vercel.json` di root memakai runtime
   `vercel-php@0.7.3`; butuh database via env (`POSTGRES_URL` dsb).
-- Branch **`demo`** (statis): `vercel.json` me-rewrite `/` ke
-  `/demo/index.html` — **tidak butuh backend, database, atau env apa pun**.
+- Branch **`demo`** (statis): hanya `index.html` + `app.js` di root —
+  **tidak butuh backend, database, atau env apa pun**.
 
 ## Tech Stack
 
