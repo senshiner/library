@@ -1,52 +1,20 @@
-> **Branch demo** — versi frontend-only dari aplikasi Perpustakaan (tanpa database, tanpa login; data di localStorage). Lihat `demo/` atau buka dari root saat deploy. Dokumentasi lengkap ada di branch `main`.
+# Perpustakaan — Demo
 
-# Perpustakaan
+Versi demo frontend-only dari aplikasi Perpustakaan. Tanpa server, tanpa
+database, tanpa login — seluruh data (buku, anggota, peminjaman) tersimpan
+di localStorage browser masing-masing pengunjung.
 
-Sistem manajemen perpustakaan berbasis Laravel 11 — kelola katalog buku, anggota, dan peminjaman dalam satu dasbor.
+## Coba
 
-![Perpustakaan](docs/banner.webp)
-
-## Fitur
-
-- **Katalog buku** — CRUD buku lengkap dengan kategori, stok, dan pencarian judul/pengarang
-- **Peminjaman** — catat pinjam/kembali dan lacak status (dipinjam, terlambat, dikembalikan)
-- **Anggota** — manajemen data anggota perpustakaan
-- **Dasbor** — ringkasan statistik: total buku, anggota, peminjaman aktif
-- **Autentikasi** — login/register berbasis Laravel Breeze
-- **UI neo-brutalist** — Tailwind + Alpine.js, responsif untuk desktop dan HP
-
-## Teknologi
-
-- Laravel 11, PHP 8.2+
-- MySQL / MariaDB
-- Tailwind CSS, Alpine.js, Vite
-- Pest (testing)
-
-## Menjalankan
+Buka `index.html` langsung di browser, atau:
 
 ```bash
-composer install
-npm install
-
-cp .env.example .env
-php artisan key:generate
-
-# sesuaikan DB_* di .env, lalu:
-php artisan migrate --seed
-
-npm run dev        # terminal 1
-php artisan serve  # terminal 2 → http://localhost:8000
+npx serve .
 ```
 
-Untuk produksi: `npm run build` sebelum `php artisan serve`.
+## Catatan
 
-## Perintah Berguna
-
-```bash
-php artisan migrate:fresh --seed   # reset database + data contoh
-php artisan test                   # jalankan test suite
-```
-
-## Lisensi
-
-MIT
+- Data contoh bawaan sama dengan seeder Laravel (termasuk 1 peminjaman
+  terlambat untuk demo).
+- Tombol **Reset Demo** di navbar mengembalikan data ke awal.
+- Dokumentasi aplikasi Laravel lengkap ada di branch `main`.
