@@ -84,7 +84,8 @@ return [
 
         'pgsql' => [
             'driver' => 'pgsql',
-            'url' => env('DB_URL'),
+            // Mendukung env bawaan Vercel Postgres (POSTGRES_URL) tanpa set manual.
+            'url' => env('DB_URL', env('POSTGRES_URL')),
             'host' => env('DB_HOST', '127.0.0.1'),
             'port' => env('DB_PORT', '5432'),
             'database' => env('DB_DATABASE', 'laravel'),
