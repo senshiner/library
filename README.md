@@ -1,3 +1,5 @@
+> **Branch demo** — versi frontend-only dari aplikasi Perpustakaan (tanpa database, tanpa login; data di localStorage). Lihat `demo/` atau buka dari root saat deploy. Dokumentasi lengkap ada di branch `main`.
+
 # Perpustakaan
 
 Sistem manajemen perpustakaan berbasis Laravel 11 — kelola katalog buku, anggota, dan peminjaman dalam satu dasbor.
