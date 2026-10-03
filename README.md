@@ -1,5 +1,12 @@
 # Perpustakaan
 
+![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)
+![PHP](https://img.shields.io/badge/PHP-8.2%2B-777BB4?logo=php&logoColor=white)
+[![Live Demo](https://img.shields.io/badge/demo-live-brightgreen)](https://libraryys-zeta.vercel.app/)
+
+**[→ Coba demo live](https://libraryys-zeta.vercel.app/)** — versi demo 100%
+frontend, tanpa login dan tanpa database.
+
 Sistem manajemen perpustakaan (Laravel 11 + Blade) — kelola katalog buku,
 anggota, dan peminjaman dalam satu dasbor ber-UI neo-brutalist.
 
