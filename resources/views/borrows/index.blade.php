@@ -74,7 +74,11 @@
                                     </div>
                                 </td>
                                 <td class="px-6 py-4 border-r border-black">
-                                    @if($borrow->status == 'borrowed')
+                                    @if($borrow->is_overdue)
+                                        <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-red-200 text-red-900 border border-red-900">
+                                            Terlambat
+                                        </span>
+                                    @elseif($borrow->status == 'borrowed')
                                         <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-yellow-200 text-yellow-900 border border-yellow-900">
                                             Dipinjam
                                         </span>
