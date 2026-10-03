@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Perpustakaan — Demo</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<style>
+  body { font-family: ui-sans-serif, system-ui, sans-serif; }
+  .nb { border: 2px solid #000; box-shadow: 4px 4px 0px rgba(0,0,0,1); }
+  .nb-btn { border: 2px solid #000; box-shadow: 3px 3px 0px rgba(0,0,0,1); transition: all .15s; }
+  .nb-btn:active { transform: translate(2px, 2px); box-shadow: none; }
+  .nb-input { border: 2px solid #000; box-shadow: 3px 3px 0px rgba(0,0,0,1); }
+  .nb-input:focus { outline: none; ring: 2px; }
+  .nav-link.active { background: #22d3ee; }
+</style>
+</head>
+<body class="bg-cyan-50 min-h-screen text-gray-900">
+
+<!-- DEMO banner -->
+<div class="bg-black text-white text-center text-sm font-bold py-2 tracking-widest">
+  MODE DEMO — data tersimpan di browser kamu saja
+</div>
+
+<!-- Nav -->
+<nav class="bg-white border-b-2 border-black">
+  <div class="max-w-7xl mx-auto px-4 flex items-center justify-between h-16">
+    <a href="#/" class="flex items-center gap-2 font-bold text-lg">
+      <span class="bg-cyan-400 nb px-2 py-1 text-sm">📚</span> Perpustakaan
+    </a>
+    <div class="hidden md:flex gap-1 text-sm font-medium" id="navlinks">
+      <a href="#/" data-nav="dashboard" class="nav-link px-3 py-2 rounded border-2 border-transparent hover:border-black">Dashboard</a>
+      <a href="#/buku" data-nav="buku" class="nav-link px-3 py-2 rounded border-2 border-transparent hover:border-black">Buku</a>
+      <a href="#/anggota" data-nav="anggota" class="nav-link px-3 py-2 rounded border-2 border-transparent hover:border-black">Anggota</a>
+      <a href="#/peminjaman" data-nav="peminjaman" class="nav-link px-3 py-2 rounded border-2 border-transparent hover:border-black">Peminjaman</a>
+      <a href="#/kategori" data-nav="kategori" class="nav-link px-3 py-2 rounded border-2 border-transparent hover:border-black">Kategori</a>
+    </div>
+    <button onclick="resetDemo()" class="nb-btn bg-red-300 hover:bg-red-400 px-3 py-1 rounded text-sm font-medium">Reset Demo</button>
+  </div>
+  <div class="md:hidden flex gap-1 px-4 pb-3 text-sm font-medium overflow-x-auto" id="navlinks-mobile">
+    <a href="#/" data-nav="dashboard" class="nav-link px-3 py-1 rounded border-2 border-black whitespace-nowrap">Dashboard</a>
+    <a href="#/buku" data-nav="buku" class="nav-link px-3 py-1 rounded border-2 border-black whitespace-nowrap">Buku</a>
+    <a href="#/anggota" data-nav="anggota" class="nav-link px-3 py-1 rounded border-2 border-black whitespace-nowrap">Anggota</a>
+    <a href="#/peminjaman" data-nav="peminjaman" class="nav-link px-3 py-1 rounded border-2 border-black whitespace-nowrap">Peminjaman</a>
+    <a href="#/kategori" data-nav="kategori" class="nav-link px-3 py-1 rounded border-2 border-black whitespace-nowrap">Kategori</a>
+  </div>
+</nav>
+
+<main class="max-w-7xl mx-auto px-4 py-8" id="view"></main>
+
+<footer class="text-center text-sm text-gray-500 py-8">
+  Demo frontend-only — tanpa server & database. Data tersimpan di localStorage browser.
+</footer>
+
+<script src="app.js"></script>
+</body>
+</html>
