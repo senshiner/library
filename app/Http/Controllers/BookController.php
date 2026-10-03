@@ -10,10 +10,17 @@ use Illuminate\Support\Facades\Validator;
 
 class BookController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        $books = Book::with('category')->get();
-        return view('books.index', compact('books'));
+        $search = $request->get('search');
+        $books = Book::with('category')
+            ->when($search, fn ($q) => $q->where('title', 'like', "%{$search}%")
+                ->orWhere('author', 'like', "%{$search}%"))
+            ->latest()
+            ->paginate(12)
+            ->withQueryString();
+
+        return view('books.index', compact('books', 'search'));
     }
 
     public function create()

@@ -39,6 +39,29 @@
                 </div>
             @endif
 
+            <!-- Search -->
+            <form method="GET" action="{{ route('books.index') }}" class="mb-6 flex gap-2">
+                <input type="text" name="search" value="{{ $search ?? '' }}" placeholder="Cari judul atau pengarang…"
+                       class="flex-1 border border-black rounded-md px-4 py-2 bg-white
+                              shadow-[3px_3px_0px_rgba(0,0,0,1)] focus:outline-none focus:ring-2 focus:ring-cyan-400" />
+                <button type="submit"
+                        class="bg-cyan-400 hover:bg-cyan-500 border border-black text-gray-900
+                               shadow-[3px_3px_0px_rgba(0,0,0,1)]
+                               active:translate-x-[2px] active:translate-y-[2px] active:shadow-none
+                               transition-all px-4 py-2 rounded-md font-medium">
+                    Cari
+                </button>
+                @if(!empty($search))
+                    <a href="{{ route('books.index') }}"
+                       class="bg-white hover:bg-gray-100 border border-black text-gray-900
+                              shadow-[3px_3px_0px_rgba(0,0,0,1)]
+                              active:translate-x-[2px] active:translate-y-[2px] active:shadow-none
+                              transition-all px-4 py-2 rounded-md font-medium inline-flex items-center">
+                        Reset
+                    </a>
+                @endif
+            </form>
+
             <!-- Table Container -->
             <div class="bg-white border border-black rounded-lg 
                         shadow-[6px_6px_0px_rgba(0,0,0,1)] overflow-hidden">
@@ -113,6 +136,11 @@
                     </table>
                 </div>
 
+            </div>
+
+            <!-- Pagination -->
+            <div class="mt-6">
+                {{ $books->links() }}
             </div>
 
         </div>
