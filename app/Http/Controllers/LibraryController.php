@@ -14,15 +14,15 @@ class LibraryController extends Controller
         $stats = [
             'totalBooks' => Book::count(),
             'totalMembers' => Member::where('status', 'active')->count(),
-            'activeBorrows' => Borrow::where('status', 'borrowed')->count(),
-            'overdueBorrows' => Borrow::where('status', 'borrowed')
+            'activeBorrows' => Borrow::whereIn('status', ['borrowed', 'overdue'])->count(),
+            'overdueBorrows' => Borrow::whereIn('status', ['borrowed', 'overdue'])
                                 ->where('due_date', '<', now())
                                 ->count()
         ];
 
         // Recent borrows for activity feed
         $recentBorrows = Borrow::with(['book', 'member'])
-            ->where('status', 'borrowed')
+            ->whereIn('status', ['borrowed', 'overdue'])
             ->orderBy('borrow_date', 'desc')
             ->limit(5)
             ->get();

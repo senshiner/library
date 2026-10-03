@@ -21,6 +21,16 @@ class Borrow extends Model
         'return_date' => 'date',
     ];
 
+    /**
+     * "Terlambat" adalah status komputasi, bukan nilai kolom:
+     * peminjaman masih aktif (belum dikembalikan) dan sudah lewat jatuh tempo.
+     */
+    public function getIsOverdueAttribute(): bool
+    {
+        return in_array($this->status, ['borrowed', 'overdue'])
+            && $this->due_date?->isPast();
+    }
+
     public function book(): BelongsTo
     {
         return $this->belongsTo(Book::class);
