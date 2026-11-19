@@ -20,10 +20,21 @@ class Book extends Model
     /**
      * URL cover buku: file upload di disk public,
      * atau placeholder lokal bila buku belum punya cover.
+     * Bila file upload belum ada di disk (mis. seeder belum jalan,
+     * atau deploy read-only seperti Vercel), pakai salinan cover
+     * yang ikut ter-commit di public/covers/.
      */
     public function getCoverUrlAttribute(): string
     {
         if ($this->cover) {
+            if (Storage::disk('public')->exists($this->cover)) {
+                return Storage::url($this->cover);
+            }
+
+            if (file_exists(public_path($this->cover))) {
+                return asset($this->cover);
+            }
+
             return Storage::url($this->cover);
         }
 
