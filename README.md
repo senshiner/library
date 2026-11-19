@@ -65,6 +65,10 @@ php artisan storage:link     # wajib agar cover buku bisa tampil
 
 Akun demo (dari seeder): email `demo@example.com`, password `password123`.
 
+> File `database/database.sqlite` sudah jadi di repo (migrasi + seed di
+> dalamnya: 10 buku bercover, demo user). Deploy demo di Vercel memakai
+> file ini — tidak perlu migrate/seed manual.
+
 ### 4. Jalan
 
 ```bash
