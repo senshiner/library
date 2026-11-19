@@ -60,7 +60,10 @@ lalu:
 
 ```bash
 php artisan migrate --seed   # tabel + data contoh
+php artisan storage:link     # wajib agar cover buku bisa tampil
 ```
+
+Akun demo (dari seeder): email `demo@example.com`, password `password123`.
 
 ### 4. Jalan
 
@@ -92,7 +95,9 @@ Untuk produksi: `npm run build` sebelum serve.
 ## Fitur
 
 - **Katalog buku** — CRUD lengkap dengan kategori; pencarian judul/pengarang
-  dan pagination (12/halaman).
+  dan pagination (12/halaman). Setiap buku bisa punya cover (upload JPG/PNG/
+  WebP, maks 2 MB); buku tanpa cover menampilkan placeholder lokal.
+  Seeder menyertakan 10 buku contoh yang sudah bercover.
 - **Peminjaman** — catat pinjam/kembali; status Terlambat dihitung otomatis
   dari tanggal jatuh tempo (bukan set manual).
 - **Anggota** — CRUD anggota dengan status aktif/nonaktif.

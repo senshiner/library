@@ -70,6 +70,7 @@
                     <table class="min-w-full text-sm sm:text-base">
                         <thead class="bg-gray-100 border-b border-black">
                             <tr>
+                                <th class="px-6 py-3 text-left font-bold text-gray-900 border-r border-black">Cover</th>
                                 <th class="px-6 py-3 text-left font-bold text-gray-900 border-r border-black">Judul</th>
                                 <th class="px-6 py-3 text-left font-bold text-gray-900 border-r border-black">Pengarang</th>
                                 <th class="px-6 py-3 text-left font-bold text-gray-900 border-r border-black">Kategori</th>
@@ -82,6 +83,10 @@
                         <tbody>
                             @forelse($books as $book)
                             <tr class="border-b border-black">
+                                <td class="px-6 py-4">
+                                    <img src="{{ $book->cover_url }}" alt="Cover {{ $book->title }}"
+                                         class="w-12 h-16 object-cover border border-black rounded-sm">
+                                </td>
                                 <td class="px-6 py-4">{{ $book->title }}</td>
                                 <td class="px-6 py-4">{{ $book->author }}</td>
                                 <td class="px-6 py-4">{{ $book->category->name }}</td>
@@ -126,7 +131,7 @@
                             </tr>
                             @empty
                             <tr>
-                                <td colspan="6" class="px-6 py-4 text-center text-gray-600">
+                                <td colspan="7" class="px-6 py-4 text-center text-gray-600">
                                     Tidak ada data buku.
                                 </td>
                             </tr>

@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Book;
 use App\Models\Category;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Validation\Rule;
 use Illuminate\Support\Facades\Validator;
 
@@ -33,6 +34,10 @@ class BookController extends Controller
     {
         $validated = $this->validatedBookData($request);
         $validated['available'] = $validated['quantity'];
+
+        if ($request->hasFile('cover')) {
+            $validated['cover'] = $request->file('cover')->store('covers', 'public');
+        }
 
         Book::create($validated);
 
@@ -68,6 +73,13 @@ class BookController extends Controller
             ]);
         }
 
+        if ($request->hasFile('cover')) {
+            if ($book->cover) {
+                Storage::disk('public')->delete($book->cover);
+            }
+            $validated['cover'] = $request->file('cover')->store('covers', 'public');
+        }
+
         $book->update($validated);
 
         return redirect()->route('books.index')
@@ -78,6 +90,10 @@ class BookController extends Controller
     {
         if ($book->borrows()->whereIn('status', ['borrowed', 'overdue'])->exists()) {
             return back()->with('error', 'Buku dengan peminjaman aktif tidak boleh dihapus.');
+        }
+
+        if ($book->cover) {
+            Storage::disk('public')->delete($book->cover);
         }
 
         $book->delete();
@@ -104,6 +120,7 @@ class BookController extends Controller
             'published_year' => ['nullable', 'integer', 'min:1900', 'max:' . $currentYear],
             'publisher' => ['nullable', 'string', 'max:255'],
             'description' => ['nullable', 'string', 'max:2000'],
+            'cover' => ['nullable', 'image', 'mimes:jpeg,png,jpg,webp', 'max:2048'],
         ];
 
         if ($book) {

@@ -14,7 +14,7 @@
                 <div class="bg-white border border-black rounded-lg 
                             shadow-[6px_6px_0px_rgba(0,0,0,1)] p-6">
 
-                    <form action="{{ route('books.update', $book) }}" method="POST">
+                    <form action="{{ route('books.update', $book) }}" method="POST" enctype="multipart/form-data">
                         @csrf
                         @method('PUT')
                         
@@ -139,6 +139,24 @@
                                            py-2 px-3 focus:outline-none focus:ring-2 focus:ring-cyan-500 focus:border-cyan-500
                                            bg-white text-gray-900">{{ old('description', $book->description) }}</textarea>
                                 @error('description')
+                                    <p class="mt-1 text-sm text-red-600 font-medium">{{ $message }}</p>
+                                @enderror
+                            </div>
+
+                            <!-- Cover -->
+                            <div class="md:col-span-2">
+                                <label for="cover" class="block text-sm font-medium text-gray-900 mb-2">Cover Buku</label>
+                                @if($book->cover)
+                                    <img src="{{ $book->cover_url }}" alt="Cover {{ $book->title }}"
+                                         class="w-24 border border-black rounded-sm mb-2">
+                                    <p class="text-xs text-gray-600 mb-2">Unggah file baru untuk mengganti cover.</p>
+                                @endif
+                                <input type="file" name="cover" id="cover" accept="image/jpeg,image/png,image/webp"
+                                    class="block w-full border border-black rounded-md shadow-[2px_2px_0px_rgba(0,0,0,1)]
+                                           py-2 px-3 focus:outline-none focus:ring-2 focus:ring-cyan-500 focus:border-cyan-500
+                                           bg-white text-gray-900">
+                                <p class="mt-1 text-xs text-gray-600">Opsional. Format JPG, PNG, atau WebP, maksimal 2 MB.</p>
+                                @error('cover')
                                     <p class="mt-1 text-sm text-red-600 font-medium">{{ $message }}</p>
                                 @enderror
                             </div>
