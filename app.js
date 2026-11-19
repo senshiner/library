@@ -12,10 +12,16 @@ const SEED = {
     { id: 7, name: "Anak-anak", description: "Buku cerita anak-anak" },
   ],
   books: [
-    { id: 1, title: "Laskar Pelangi", author: "Andrea Hirata", isbn: "9789793062791", description: "Kisah persahabatan anak-anak di Belitung", quantity: 5, available: 5, published_year: 2005, publisher: "Bentang Pustaka", category_id: 1 },
-    { id: 2, title: "Bumi Manusia", author: "Pramoedya Ananta Toer", isbn: "9789799731231", description: "Novel sejarah tentang masa kolonial", quantity: 3, available: 3, published_year: 1980, publisher: "Hasta Mitra", category_id: 1 },
-    { id: 3, title: "Filosofi Teras", author: "Henry Manampiring", isbn: "9786024248106", description: "Filsafat Stoa untuk kehidupan modern", quantity: 4, available: 4, published_year: 2018, publisher: "Kompas", category_id: 2 },
-    { id: 4, title: "Sapiens", author: "Yuval Noah Harari", isbn: "9780099590089", description: "Riwayat singkat umat manusia", quantity: 2, available: 2, published_year: 2014, publisher: "Harvill Secker", category_id: 4 },
+    { id: 1, title: "Laskar Pelangi", author: "Andrea Hirata", isbn: "9789793062791", description: "Kisah persahabatan anak-anak di Belitung", cover: "covers/dummy-01.png", quantity: 5, available: 5, published_year: 2005, publisher: "Bentang Pustaka", category_id: 1 },
+    { id: 2, title: "Bumi Manusia", author: "Pramoedya Ananta Toer", isbn: "9789799731231", description: "Novel sejarah tentang masa kolonial", cover: "covers/dummy-02.png", quantity: 3, available: 3, published_year: 1980, publisher: "Hasta Mitra", category_id: 1 },
+    { id: 3, title: "Filosofi Teras", author: "Henry Manampiring", isbn: "9786024248106", description: "Filsafat Stoa untuk kehidupan modern", cover: "covers/dummy-03.png", quantity: 4, available: 4, published_year: 2018, publisher: "Kompas", category_id: 2 },
+    { id: 4, title: "Sapiens", author: "Yuval Noah Harari", isbn: "9780099590089", description: "Riwayat singkat umat manusia", cover: "covers/dummy-04.png", quantity: 2, available: 2, published_year: 2014, publisher: "Harvill Secker", category_id: 4 },
+    { id: 5, title: "Ronggeng Dukuh Paruk", author: "Ahmad Tohari", isbn: null, description: "Kisah Srintil, penari ronggeng di Dukuh Paruk", cover: "covers/dummy-05.png", quantity: 4, available: 4, published_year: 1982, publisher: "Gramedia Pustaka Utama", category_id: 1 },
+    { id: 6, title: "Cantik Itu Luka", author: "Eka Kurniawan", isbn: null, description: "Saga keluarga di kota fiktif Halimunda", cover: "covers/dummy-06.png", quantity: 3, available: 3, published_year: 2002, publisher: "Gramedia Pustaka Utama", category_id: 1 },
+    { id: 7, title: "Atomic Habits", author: "James Clear", isbn: null, description: "Cara mudah membangun kebiasaan baik", cover: "covers/dummy-07.png", quantity: 6, available: 6, published_year: 2019, publisher: "Gramedia Pustaka Utama", category_id: 2 },
+    { id: 8, title: "Laut Bercerita", author: "Leila S. Chudori", isbn: null, description: "Novel tentang aktivis yang hilang di era Orde Baru", cover: "covers/dummy-08.png", quantity: 4, available: 4, published_year: 2017, publisher: "Kepustakaan Populer Gramedia", category_id: 1 },
+    { id: 9, title: "Bumi", author: "Tere Liye", isbn: null, description: "Petualangan Raib dan kawan-kawan di dunia paralel", cover: "covers/dummy-09.png", quantity: 5, available: 5, published_year: 2014, publisher: "Gramedia Pustaka Utama", category_id: 1 },
+    { id: 10, title: "Clean Code", author: "Robert C. Martin", isbn: null, description: "Panduan menulis kode yang bersih dan mudah dirawat", cover: "covers/dummy-10.png", quantity: 2, available: 2, published_year: 2008, publisher: "Pearson", category_id: 3 },
   ],
   members: [
     { id: 1, name: "Ahmad Santoso", email: "ahmad.santoso@email.com", phone: "081234567890", address: "Jl. Merdeka No. 123, Jakarta", join_date: "2023-01-15", status: "active" },
@@ -27,7 +33,7 @@ const SEED = {
     { id: 2, book_id: 2, member_id: 2, borrow_date: daysAgo(20), due_date: daysAgo(6), return_date: null, status: "borrowed", notes: "" },
     { id: 3, book_id: 3, member_id: 1, borrow_date: daysAgo(30), due_date: daysAgo(16), return_date: daysAgo(15), status: "returned", notes: "" },
   ],
-  seq: { book: 5, category: 8, member: 4, borrow: 4 },
+  seq: { book: 11, category: 8, member: 4, borrow: 4 },
 };
 
 function daysAgo(n) { const d = new Date(); d.setDate(d.getDate() - n); return d.toISOString().slice(0, 10); }
@@ -38,7 +44,18 @@ let DB;
 function load() {
   try {
     const raw = localStorage.getItem(LS_KEY);
-    if (raw) { DB = JSON.parse(raw); return; }
+    if (raw) {
+      DB = JSON.parse(raw);
+      // migrasi: data demo lama belum punya cover — isi dari seed berdasarkan id
+      DB.books.forEach((b) => {
+        if (!b.cover) {
+          const s = SEED.books.find((x) => x.id === b.id);
+          b.cover = s ? s.cover : null;
+        }
+      });
+      save();
+      return;
+    }
   } catch (e) {}
   DB = JSON.parse(JSON.stringify(SEED));
   // sinkronkan stok dengan peminjaman aktif
@@ -59,6 +76,7 @@ function resetDemo() {
 const $ = (s) => document.querySelector(s);
 const esc = (s) => String(s ?? "").replace(/[&<>"']/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
 const catName = (id) => (DB.categories.find((c) => c.id === id) || {}).name || "-";
+const coverSrc = (b) => (b && b.cover ? b.cover : "covers/cover-placeholder.svg");
 const bookOf = (id) => DB.books.find((b) => b.id === id) || {};
 const memberOf = (id) => DB.members.find((m) => m.id === id) || {};
 const isOverdue = (br) => br.status === "borrowed" && br.due_date < daysAhead(0);
@@ -146,12 +164,13 @@ function vBooks(q = "") {
     <div class="bg-white nb rounded-lg overflow-hidden"><div class="overflow-x-auto">
       <table class="min-w-full text-sm">
         <thead class="bg-gray-100 border-b-2 border-black"><tr>
-          <th class="px-6 py-3 text-left">Judul</th><th class="px-6 py-3 text-left">Pengarang</th>
+          <th class="px-6 py-3 text-left">Cover</th><th class="px-6 py-3 text-left">Judul</th><th class="px-6 py-3 text-left">Pengarang</th>
           <th class="px-6 py-3 text-left">Kategori</th><th class="px-6 py-3 text-left">Stok</th>
           <th class="px-6 py-3 text-left">Tersedia</th><th class="px-6 py-3 text-left">Aksi</th>
         </tr></thead>
         <tbody>${list.map((b) => `
           <tr class="border-b border-black">
+            <td class="px-6 py-3"><img src="${esc(coverSrc(b))}" alt="Cover ${esc(b.title)}" class="w-10 h-14 object-cover border border-black rounded-sm"></td>
             <td class="px-6 py-3">${esc(b.title)}</td>
             <td class="px-6 py-3">${esc(b.author)}</td>
             <td class="px-6 py-3">${esc(catName(b.category_id))}</td>
@@ -162,7 +181,7 @@ function vBooks(q = "") {
               ${btn("#/buku/" + b.id + "/edit", "Edit", "bg-yellow-300 hover:bg-yellow-400")}
               <button onclick="delBook(${b.id})" class="nb-btn bg-red-300 hover:bg-red-400 px-3 py-1 rounded text-sm font-medium">Hapus</button>
             </td>
-          </tr>`).join("") || `<tr><td colspan="6" class="px-6 py-4 text-center text-gray-500">Tidak ada data buku.</td></tr>`}
+          </tr>`).join("") || `<tr><td colspan="7" class="px-6 py-4 text-center text-gray-500">Tidak ada data buku.</td></tr>`}
         </tbody>
       </table>
     </div></div>`;
@@ -179,6 +198,8 @@ function vBookForm(id) {
     <form class="bg-white nb rounded-lg p-6 max-w-2xl space-y-4" onsubmit="saveBook(event, ${b ? b.id : "null"})">
       ${field("Judul", "title", v("title"), true)}
       ${field("Pengarang", "author", v("author"), true)}
+      ${b && b.cover ? `<div><label class="font-medium text-sm">Cover saat ini</label>
+        <img src="${esc(coverSrc(b))}" alt="Cover ${esc(b.title)}" class="w-24 border border-black rounded-sm mt-1"></div>` : ""}
       <div><label class="font-medium text-sm">Kategori</label>
         <select name="category_id" class="w-full nb-input rounded-md px-3 py-2 bg-white mt-1">${catOpts}</select></div>
       ${field("ISBN", "isbn", v("isbn"))}
@@ -212,7 +233,7 @@ function saveBook(e, id) {
     b.available = Math.max(0, b.quantity - act);
     toast("Buku berhasil diupdate.");
   } else {
-    const nb = { id: DB.seq.book++, available: f.quantity, ...f };
+    const nb = { id: DB.seq.book++, available: f.quantity, cover: null, ...f };
     DB.books.push(nb);
     toast("Buku berhasil ditambahkan.");
   }
@@ -231,6 +252,7 @@ function vBookDetail(id) {
   return `
     <h1 class="text-2xl font-bold mb-6">${esc(b.title)}</h1>
     <div class="bg-white nb rounded-lg p-6 max-w-2xl">
+      <img src="${esc(coverSrc(b))}" alt="Cover ${esc(b.title)}" class="w-40 border-2 border-black rounded-sm mb-6">
       <dl class="text-sm">
         ${row("Pengarang", esc(b.author))}${row("Kategori", esc(catName(b.category_id)))}
         ${row("ISBN", esc(b.isbn) || "-")}${row("Penerbit", esc(b.publisher) || "-")}

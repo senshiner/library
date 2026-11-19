@@ -15,6 +15,6 @@ npx serve .
 ## Catatan
 
 - Data contoh bawaan sama dengan seeder Laravel (termasuk 1 peminjaman
-  terlambat untuk demo).
+  terlambat untuk demo) — 10 buku, semuanya sudah bercover.
 - Tombol **Reset Demo** di navbar mengembalikan data ke awal.
 - Dokumentasi aplikasi Laravel lengkap ada di branch `main`.
