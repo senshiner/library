@@ -33,8 +33,12 @@ return [
 
         'sqlite' => [
             'driver' => 'sqlite',
-            'url' => env('DB_URL'),
-            'database' => env('DB_DATABASE', database_path('database.sqlite')),
+            // Sengaja TIDAK membaca DB_URL/DB_DATABASE dari env: file sqlite
+            // demo (database/database.sqlite) sudah jadi di repo dan harus
+            // selalu dipakai — env sisa setup Postgres lama di dashboard
+            // (DB_DATABASE=postgres) sebelumnya mengarahkan koneksi ke
+            // file bernama "postgres" yang tidak ada.
+            'database' => database_path('database.sqlite'),
             'prefix' => '',
             'foreign_key_constraints' => env('DB_FOREIGN_KEYS', true),
             'busy_timeout' => null,
