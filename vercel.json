@@ -27,6 +27,7 @@
   ],
   "env": {
     "DB_CONNECTION": "sqlite",
+    "DEMO_AUTO_LOGIN": "true",
     "SESSION_DRIVER": "cookie",
     "CACHE_STORE": "array",
     "APP_CONFIG_CACHE": "/tmp/config.php",

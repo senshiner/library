@@ -43,6 +43,19 @@ return [
 
     /*
     |--------------------------------------------------------------------------
+    | Demo Auto-Login
+    |--------------------------------------------------------------------------
+    |
+    | Bila true, pengunjung langsung masuk sebagai akun demo tanpa form
+    | login (middleware AutoLoginDemo). Hanya diaktifkan di hosting demo
+    | lewat env DEMO_AUTO_LOGIN=true; default false di semua tempat lain.
+    |
+    */
+
+    'demo_auto_login' => (bool) env('DEMO_AUTO_LOGIN', false),
+
+    /*
+    |--------------------------------------------------------------------------
     | Application URL
     |--------------------------------------------------------------------------
     |

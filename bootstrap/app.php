@@ -11,7 +11,8 @@ return Application::configure(basePath: dirname(__DIR__))
         health: '/up',
     )
     ->withMiddleware(function (Middleware $middleware) {
-        //
+        // Demo showcase: langsung masuk akun demo bila DEMO_AUTO_LOGIN=true.
+        $middleware->appendToGroup('web', \App\Http\Middleware\AutoLoginDemo::class);
     })
     ->withExceptions(function (Exceptions $exceptions) {
         //

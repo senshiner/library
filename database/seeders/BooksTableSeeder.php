@@ -19,7 +19,7 @@ class BooksTableSeeder extends Seeder
                     'author' => 'Andrea Hirata',
                     'isbn' => '9789793062791',
                     'description' => 'Kisah persahabatan anak-anak di Belitung',
-                    'cover' => 'covers/dummy-01.png',
+                    'cover' => 'covers/real-01.jpg',
                     'quantity' => 5,
                     'available' => 5,
                     'published_year' => 2005,
@@ -31,7 +31,7 @@ class BooksTableSeeder extends Seeder
                     'author' => 'Pramoedya Ananta Toer',
                     'isbn' => '9789799731231',
                     'description' => 'Novel sejarah tentang masa kolonial',
-                    'cover' => 'covers/dummy-02.png',
+                    'cover' => 'covers/real-02.jpg',
                     'quantity' => 3,
                     'available' => 3,
                     'published_year' => 1980,
@@ -43,7 +43,7 @@ class BooksTableSeeder extends Seeder
                     'author' => 'Henry Manampiring',
                     'isbn' => '9786024248106',
                     'description' => 'Filsafat Stoa untuk kehidupan modern',
-                    'cover' => 'covers/dummy-03.png',
+                    'cover' => 'covers/real-03.jpg',
                     'quantity' => 4,
                     'available' => 4,
                     'published_year' => 2018,
@@ -55,7 +55,7 @@ class BooksTableSeeder extends Seeder
                     'author' => 'Yuval Noah Harari',
                     'isbn' => '9780099590089',
                     'description' => 'Riwayat singkat umat manusia',
-                    'cover' => 'covers/dummy-04.png',
+                    'cover' => 'covers/real-04.jpg',
                     'quantity' => 2,
                     'available' => 2,
                     'published_year' => 2014,
@@ -66,7 +66,7 @@ class BooksTableSeeder extends Seeder
                     'title' => 'Ronggeng Dukuh Paruk',
                     'author' => 'Ahmad Tohari',
                     'description' => 'Kisah Srintil, penari ronggeng di Dukuh Paruk',
-                    'cover' => 'covers/dummy-05.png',
+                    'cover' => 'covers/real-05.jpg',
                     'quantity' => 4,
                     'available' => 4,
                     'published_year' => 1982,
@@ -77,7 +77,7 @@ class BooksTableSeeder extends Seeder
                     'title' => 'Cantik Itu Luka',
                     'author' => 'Eka Kurniawan',
                     'description' => 'Saga keluarga di kota fiktif Halimunda',
-                    'cover' => 'covers/dummy-06.png',
+                    'cover' => 'covers/real-06.jpg',
                     'quantity' => 3,
                     'available' => 3,
                     'published_year' => 2002,
@@ -88,7 +88,7 @@ class BooksTableSeeder extends Seeder
                     'title' => 'Atomic Habits',
                     'author' => 'James Clear',
                     'description' => 'Cara mudah membangun kebiasaan baik',
-                    'cover' => 'covers/dummy-07.png',
+                    'cover' => 'covers/real-07.jpg',
                     'quantity' => 6,
                     'available' => 6,
                     'published_year' => 2019,
@@ -99,7 +99,7 @@ class BooksTableSeeder extends Seeder
                     'title' => 'Laut Bercerita',
                     'author' => 'Leila S. Chudori',
                     'description' => 'Novel tentang aktivis yang hilang di era Orde Baru',
-                    'cover' => 'covers/dummy-08.png',
+                    'cover' => 'covers/real-08.jpg',
                     'quantity' => 4,
                     'available' => 4,
                     'published_year' => 2017,
@@ -110,7 +110,7 @@ class BooksTableSeeder extends Seeder
                     'title' => 'Bumi',
                     'author' => 'Tere Liye',
                     'description' => 'Petualangan Raib dan kawan-kawan di dunia paralel',
-                    'cover' => 'covers/dummy-09.png',
+                    'cover' => 'covers/real-09.jpg',
                     'quantity' => 5,
                     'available' => 5,
                     'published_year' => 2014,
@@ -121,7 +121,7 @@ class BooksTableSeeder extends Seeder
                     'title' => 'Clean Code',
                     'author' => 'Robert C. Martin',
                     'description' => 'Panduan menulis kode yang bersih dan mudah dirawat',
-                    'cover' => 'covers/dummy-10.png',
+                    'cover' => 'covers/real-10.jpg',
                     'quantity' => 2,
                     'available' => 2,
                     'published_year' => 2008,
@@ -131,7 +131,7 @@ class BooksTableSeeder extends Seeder
             ];
 
             foreach ($books as $book) {
-                // Cover dummy tersimpan di public/covers/ (ikut repo).
+                // Cover asli tersimpan di public/covers/ (ikut repo).
                 // Salin ke disk public agar Storage::url() bisa menemukannya.
                 if (! empty($book['cover'])) {
                     $source = public_path($book['cover']);
