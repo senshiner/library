@@ -42,6 +42,8 @@ class AuthenticatedSessionController extends Controller
 
         $request->session()->regenerateToken();
 
-        return redirect('/');
+        // Demo showcase: setelah logout mendarat di form login, bukan di '/'
+        // (halaman '/' akan auto-login lagi bila DEMO_AUTO_LOGIN=true).
+        return redirect()->route('login');
     }
 }

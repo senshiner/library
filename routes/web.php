@@ -7,7 +7,11 @@ use App\Http\Controllers\BorrowController;
 use App\Http\Controllers\LibraryController;
 
 Route::get('/', function () {
-    return view('welcome');
+    // Demo showcase: pengunjung yang sudah masuk (termasuk via auto-login)
+    // langsung ke dashboard, bukan halaman welcome.
+    return auth()->check()
+        ? redirect()->route('dashboard')
+        : view('welcome');
 });
 
 // Gunakan LibraryController untuk dashboard

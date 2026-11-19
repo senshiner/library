@@ -15,6 +15,9 @@ class DemoUserSeeder extends Seeder
             [
                 'name' => 'Demo Admin',
                 'password' => Hash::make('password123'),
+                // Dashboard memakai middleware 'verified', jadi akun demo
+                // harus terverifikasi agar bisa langsung masuk.
+                'email_verified_at' => now(),
             ]
         );
     }
